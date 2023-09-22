@@ -6,7 +6,7 @@ Tools for data analysis.
 
 All team members can recreate the virtual environment by creating an environment:
 ```
-conda env create -f environment.yml
+conda env create -f TDT4173-MPC.yml
 ```
 
 And activating the environment by using:
