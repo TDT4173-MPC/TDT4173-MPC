@@ -10,9 +10,11 @@ def structure_data(x_train_obs, x_train_est, x_target):
     x_target_obs = x_target.iloc[:split_index]
     x_target_est = x_target.iloc[split_index:]
     x_train_obs_resampled = x_train_obs.set_index('date_forecast').resample('1H').mean()
-    x_train_est_resampled = x_train_est.set_index('date_forecast').resample('1H').mean()
+    x_train_est_resampled = x_train_est.set_index('date_calc').resample('1H').mean()
+    x_train_est_resampled = x_train_est_resampled.drop(columns=['date_forecast'])
     x_target_obs_resampled = x_target_obs.set_index('time').resample('1H').mean()
-    return x_train_obs_resampled, x_train_est_resampled, x_target_obs_resampled
+    x_target_est_resampled = x_target_est.set_index('time').resample('1H').mean()
+    return x_train_obs_resampled, x_train_est_resampled, x_target_obs_resampled, x_target_est_resampled
 
 def calculate_correlations(data, target):
     correlations = data.apply(lambda x: x.corr(target))
@@ -55,22 +57,22 @@ if __name__ == "__main__":
     x_target = pd.read_parquet("Analysis/data/A/train_targets.parquet")
     x_train_obs = pd.read_parquet("Analysis/data/A/X_train_observed.parquet")
     x_train_est = pd.read_parquet("Analysis/data/A/X_train_estimated.parquet")
-    x_train_obs_resampled, x_train_est_resampled, x_target_obs_resampled = structure_data(x_train_obs, x_train_est, x_target)
-    corr_matrix = create_correlation_matrix(x_train_obs_resampled, x_target_obs_resampled['pv_measurement'])
-    plot_correlation_matrix(corr_matrix, "Location A correlation", save=True, show=False)
+    x_train_obs_resampled, x_train_est_resampled, x_target_obs_resampled, x_target_est_resampled = structure_data(x_train_obs, x_train_est, x_target)
+    corr_matrix = create_correlation_matrix(x_train_est_resampled, x_target_est_resampled['pv_measurement'])
+    plot_correlation_matrix(corr_matrix, "Location A estimated correlation", save=True, show=False)
 
     # Factory B
     x_target = pd.read_parquet("Analysis/data/B/train_targets.parquet")
     x_train_obs = pd.read_parquet("Analysis/data/B/X_train_observed.parquet")
     x_train_est = pd.read_parquet("Analysis/data/B/X_train_estimated.parquet")
-    x_train_obs_resampled, x_train_est_resampled, x_target_obs_resampled = structure_data(x_train_obs, x_train_est, x_target)
-    corr_matrix = create_correlation_matrix(x_train_obs_resampled, x_target_obs_resampled['pv_measurement'])
-    plot_correlation_matrix(corr_matrix, "Location B correlation", save=True, show=False)
+    x_train_obs_resampled, x_train_est_resampled, x_target_obs_resampled, x_target_est_resampled = structure_data(x_train_obs, x_train_est, x_target)
+    corr_matrix = create_correlation_matrix(x_train_est_resampled, x_target_est_resampled['pv_measurement'])
+    plot_correlation_matrix(corr_matrix, "Location B estimated correlation", save=True, show=False)
 
     # Factory C
     x_target = pd.read_parquet("Analysis/data/C/train_targets.parquet")
     x_train_obs = pd.read_parquet("Analysis/data/C/X_train_observed.parquet")
     x_train_est = pd.read_parquet("Analysis/data/C/X_train_estimated.parquet")
-    x_train_obs_resampled, x_train_est_resampled, x_target_obs_resampled = structure_data(x_train_obs, x_train_est, x_target)
-    corr_matrix = create_correlation_matrix(x_train_obs_resampled, x_target_obs_resampled['pv_measurement'])
-    plot_correlation_matrix(corr_matrix, "Location C correlation", save=True, show=False)
+    x_train_obs_resampled, x_train_est_resampled, x_target_obs_resampled, x_target_est_resampled = structure_data(x_train_obs, x_train_est, x_target)
+    corr_matrix = create_correlation_matrix(x_train_est_resampled, x_target_est_resampled['pv_measurement'])
+    plot_correlation_matrix(corr_matrix, "Location C estimated correlation", save=True, show=False)
