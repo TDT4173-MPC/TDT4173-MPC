@@ -3,7 +3,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-
 def structure_data(x_train_obs, x_train_est, x_target):
     split_value = x_train_est['date_forecast'].iloc[0]
     split_index = x_target[x_target['time'] == split_value].index[0]
@@ -32,16 +31,6 @@ def plot_correlation_matrix(data, title, save=False, show=True):
     if show:
         plt.show()
 
-def plot_correlations_scatter(data, target, title, save=False, show=True):
-    plt.figure(figsize=(16, 10))
-    plt.title(title)
-    plt.scatter(data, target)
-    plt.tight_layout(pad=3)
-    if save:
-        plt.savefig(f"Analysis/Mathias/plots/{title}.png")
-    if show:
-        plt.show()
-
 def create_correlation_matrix(data, target):
     corr_matrix = data.corrwith(target)
     corr_matrix_sorted = corr_matrix.sort_values(ascending=False)
@@ -49,9 +38,7 @@ def create_correlation_matrix(data, target):
     corr_matrix_sorted.index = corr_matrix_sorted.index.str.replace(r':(\w+)', r' [\1]', regex=True)
     return corr_matrix_sorted
 
-
-
-if __name__ == "__main__":
+def create_correlation_files():
 
     # Factory A
     x_target = pd.read_parquet("Analysis/data/A/train_targets.parquet")
@@ -76,3 +63,15 @@ if __name__ == "__main__":
     x_train_obs_resampled, x_train_est_resampled, x_target_obs_resampled, x_target_est_resampled = structure_data(x_train_obs, x_train_est, x_target)
     corr_matrix = create_correlation_matrix(x_train_est_resampled, x_target_est_resampled['pv_measurement'])
     plot_correlation_matrix(corr_matrix, "Location C estimated correlation", save=True, show=False)
+
+
+if __name__ == "__main__":
+    x_target = pd.read_parquet("Analysis/data/A/train_targets.parquet")
+    x_train_obs = pd.read_parquet("Analysis/data/A/X_train_observed.parquet")
+    x_train_est = pd.read_parquet("Analysis/data/A/X_train_estimated.parquet")
+    x_test = pd.read_parquet("Analysis/data/A/X_test_estimated.parquet")
+    print(x_target.head())
+    print(x_train_obs.head())
+    print(x_train_est.head())
+    print(x_test.head(100))
+
