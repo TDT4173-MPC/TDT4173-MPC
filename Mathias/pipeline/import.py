@@ -17,13 +17,13 @@ def main():
 
     # Resample
     x_train_obs_A_resampled = x_train_obs_A.set_index('date_forecast').resample('1H').mean()
-    x_train_est_A_resampled = x_train_est_A.set_index('date_calc').resample('1H').mean()
+    x_train_est_A_resampled = x_train_est_A.set_index('date_forecast').resample('1H').mean()
 
     x_train_obs_B_resampled = x_train_obs_B.set_index('date_forecast').resample('1H').mean()
-    x_train_est_B_resampled = x_train_est_B.set_index('date_calc').resample('1H').mean()
+    x_train_est_B_resampled = x_train_est_B.set_index('date_forecast').resample('1H').mean()
 
     x_train_obs_C_resampled = x_train_obs_C.set_index('date_forecast').resample('1H').mean()
-    x_train_est_C_resampled = x_train_est_C.set_index('date_calc').resample('1H').mean()
+    x_train_est_C_resampled = x_train_est_C.set_index('date_forecast').resample('1H').mean()
 
     # Merge
     split_value = x_train_est_A['date_forecast'].iloc[0]

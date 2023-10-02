@@ -18,7 +18,7 @@ def remove_outliers(df):
     for col in numeric_cols:
         df = df[(df[col] >= lower_bound[col]) & (df[col] <= upper_bound[col])]
 
-    return df.dropna()
+    return df
 
 
 def main(input_file, output_file):

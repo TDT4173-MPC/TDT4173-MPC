@@ -22,13 +22,29 @@ Processed ./Mathias/pipeline/data/est_B.csv
 Processed ./Mathias/pipeline/data/obs_C.csv
 Processed ./Mathias/pipeline/data/est_C.csv
 
-Removing outliers and NaN rows...
+Removing outliers...
 Outliers removed. Cleaned data saved to ./Mathias/pipeline/data/obs_A.csv.
 Outliers removed. Cleaned data saved to ./Mathias/pipeline/data/est_A.csv.
 Outliers removed. Cleaned data saved to ./Mathias/pipeline/data/obs_B.csv.
 Outliers removed. Cleaned data saved to ./Mathias/pipeline/data/est_B.csv.
 Outliers removed. Cleaned data saved to ./Mathias/pipeline/data/obs_C.csv.
 Outliers removed. Cleaned data saved to ./Mathias/pipeline/data/est_C.csv.
+
+Interpolating missing values...
+Missing values interpolated and saved to ./Mathias/pipeline/data/obs_A.csv.
+Missing values interpolated and saved to ./Mathias/pipeline/data/est_A.csv.
+Missing values interpolated and saved to ./Mathias/pipeline/data/obs_B.csv.
+Missing values interpolated and saved to ./Mathias/pipeline/data/est_B.csv.
+Missing values interpolated and saved to ./Mathias/pipeline/data/obs_C.csv.
+Missing values interpolated and saved to ./Mathias/pipeline/data/est_C.csv.
+
+Adding features...
+Features added and file saved to ./Mathias/pipeline/data/obs_A.csv.
+Features added and file saved to ./Mathias/pipeline/data/est_A.csv.
+Features added and file saved to ./Mathias/pipeline/data/obs_B.csv.
+Features added and file saved to ./Mathias/pipeline/data/est_B.csv.
+Features added and file saved to ./Mathias/pipeline/data/obs_C.csv.
+Features added and file saved to ./Mathias/pipeline/data/est_C.csv.
 
 Normalizing data...
 Data normalized and saved to ./Mathias/pipeline/data/obs_A.csv.

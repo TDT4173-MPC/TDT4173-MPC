@@ -74,12 +74,32 @@ for file in $FILES; do
     fi
 done
 
-# Removing outliers and NaN rows
-echo -e "\nRemoving outliers and NaN rows..." | tee -a $LOG_FILE
+# Removing outliers
+echo -e "\nRemoving outliers..." | tee -a $LOG_FILE
 for file in $FILES; do
     python3 $SCRIPT_PATH/remove_outliers.py $DATA_PATH/$file 2>&1 | tee -a $LOG_FILE
     if [ ${PIPESTATUS[0]} -ne 0 ]; then
         echo "Error removing outliers for $file. Exiting." | tee -a $LOG_FILE
+        exit 1
+    fi
+done
+
+# Interpolate missing values
+echo -e "\nInterpolating missing values..." | tee -a $LOG_FILE
+for file in $FILES; do
+    python3 $SCRIPT_PATH/interpolate.py $DATA_PATH/$file 2>&1 | tee -a $LOG_FILE
+    if [ ${PIPESTATUS[0]} -ne 0 ]; then
+        echo "Error interpolating for $file. Exiting." | tee -a $LOG_FILE
+        exit 1
+    fi
+done
+
+# Add features
+echo -e "\nAdding features..." | tee -a $LOG_FILE
+for file in $FILES; do
+    python3 $SCRIPT_PATH/add_features.py $DATA_PATH/$file 2>&1 | tee -a $LOG_FILE
+    if [ ${PIPESTATUS[0]} -ne 0 ]; then
+        echo "Error adding features for $file. Exiting." | tee -a $LOG_FILE
         exit 1
     fi
 done
