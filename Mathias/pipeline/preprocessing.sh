@@ -1,6 +1,8 @@
 #!/bin/bash
 
 LOG_FILE="./Mathias/pipeline/preprocessing.log"
+SCRIPT_PATH="./Mathias/pipeline"
+DATA_PATH="./Mathias/pipeline/data"
 
 # Clear the log file
 > $LOG_FILE
@@ -41,9 +43,6 @@ fi
 ################################################################################
 
 echo -e "\nStarting preprocessing..." | tee -a $LOG_FILE
-
-SCRIPT_PATH="./Mathias/pipeline"
-DATA_PATH="./Mathias/pipeline/data"
 
 # Import data and resample to 1 hour intervals
 FILES=$(python3 $SCRIPT_PATH/import.py)
