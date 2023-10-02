@@ -1,2 +1,6 @@
 .DS_Store
 data/
+cross_correlations/
+feature_importace/
+multicollinearity/
+correlations/
