@@ -5,7 +5,7 @@
 ################################################################################
 
 # Source Conda's shell functions
-source $(conda info --base)/etc/profile.d/conda.sh
+source ~/anaconda3/bin/activate
 
 # Name of the conda environment
 ENV_NAME="TDT4173-MPC"
@@ -25,6 +25,8 @@ fi
 if [ "$CONDA_DEFAULT_ENV" != "$ENV_NAME" ]; then
     echo "Error activating environment $ENV_NAME. Exiting."
     exit 1
+else
+    echo "Successfully activated conda environment: $ENV_NAME"
 fi
 
 ################################################################################
@@ -33,8 +35,11 @@ fi
 
 echo "Starting preprocessing..."
 
+SCRIPT_PATH="./Mathias/pipeline"
+DATA_PATH="./Mathias/pipeline/data"
+
 # Import data and resample to 1 hour intervals
-python3 ./Mathias/pipeline/import.py
+python3 $SCRIPT_PATH/import.py
 
 # Remove columns that are not needed
 COLUMNS_TO_KEEP="\
@@ -47,7 +52,30 @@ pv_measurement \
 diffuse_rad_1h:J \
 pressure_100m:hPa"
 
-python3 ./Mathias/pipeline/keep_columns.py "$COLUMNS_TO_KEEP"
+echo "Keeping columns: $COLUMNS_TO_KEEP"
+
+python3 $SCRIPT_PATH/keep_columns.py "$COLUMNS_TO_KEEP" $DATA_PATH/x_obs_A.csv
+python3 $SCRIPT_PATH/keep_columns.py "$COLUMNS_TO_KEEP" $DATA_PATH/x_est_A.csv
+python3 $SCRIPT_PATH/keep_columns.py "$COLUMNS_TO_KEEP" $DATA_PATH/x_obs_B.csv
+python3 $SCRIPT_PATH/keep_columns.py "$COLUMNS_TO_KEEP" $DATA_PATH/x_est_B.csv
+python3 $SCRIPT_PATH/keep_columns.py "$COLUMNS_TO_KEEP" $DATA_PATH/x_obs_C.csv
+python3 $SCRIPT_PATH/keep_columns.py "$COLUMNS_TO_KEEP" $DATA_PATH/x_est_C.csv
+
+# Remove outliers and NaNs
+python3 $SCRIPT_PATH/remove_outliers.py $DATA_PATH/x_obs_A.csv
+python3 $SCRIPT_PATH/remove_outliers.py $DATA_PATH/x_est_A.csv
+python3 $SCRIPT_PATH/remove_outliers.py $DATA_PATH/x_obs_B.csv
+python3 $SCRIPT_PATH/remove_outliers.py $DATA_PATH/x_est_B.csv
+python3 $SCRIPT_PATH/remove_outliers.py $DATA_PATH/x_obs_C.csv
+python3 $SCRIPT_PATH/remove_outliers.py $DATA_PATH/x_est_C.csv
+
+# Normalize data
+python3 $SCRIPT_PATH/normalize.py $DATA_PATH/x_obs_A.csv
+python3 $SCRIPT_PATH/normalize.py $DATA_PATH/x_est_A.csv
+python3 $SCRIPT_PATH/normalize.py $DATA_PATH/x_obs_B.csv
+python3 $SCRIPT_PATH/normalize.py $DATA_PATH/x_est_B.csv
+python3 $SCRIPT_PATH/normalize.py $DATA_PATH/x_obs_C.csv
+python3 $SCRIPT_PATH/normalize.py $DATA_PATH/x_est_C.csv
 
 echo "Preprocessing completed."
 

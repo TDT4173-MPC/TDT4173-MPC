@@ -54,14 +54,14 @@ def main():
     x_est_C = x_train_est_C_resampled.merge(x_target_est_C, left_index=True, right_on='time')
 
     # Save
-    x_obs_A.to_csv('./Mathias/pipeline/data/x_obs_A.csv')
-    x_est_A.to_csv('./Mathias/pipeline/data/x_est_A.csv')
+    x_obs_A.to_csv('./Mathias/pipeline/data/x_obs_A.csv', index=False)
+    x_est_A.to_csv('./Mathias/pipeline/data/x_est_A.csv', index=False)
 
-    x_obs_B.to_csv('./Mathias/pipeline/data/x_obs_B.csv')
-    x_est_B.to_csv('./Mathias/pipeline/data/x_est_B.csv')
+    x_obs_B.to_csv('./Mathias/pipeline/data/x_obs_B.csv' , index=False)
+    x_est_B.to_csv('./Mathias/pipeline/data/x_est_B.csv', index=False)
 
-    x_obs_C.to_csv('./Mathias/pipeline/data/x_obs_C.csv')
-    x_est_C.to_csv('./Mathias/pipeline/data/x_est_C.csv')
+    x_obs_C.to_csv('./Mathias/pipeline/data/x_obs_C.csv', index=False)
+    x_est_C.to_csv('./Mathias/pipeline/data/x_est_C.csv', index=False)
 
 
 if __name__ == '__main__':
