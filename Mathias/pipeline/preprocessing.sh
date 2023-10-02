@@ -1,5 +1,11 @@
 #!/bin/bash
 
+LOG_FILE="./Mathias/pipeline/preprocessing.log"
+
+# Clear the log file
+> $LOG_FILE
+
+
 ################################################################################
 #                               Virtual environment                            #
 ################################################################################
@@ -11,38 +17,33 @@ source ~/anaconda3/bin/activate
 ENV_NAME="TDT4173-MPC"
 ENV_PATH="Analysis/TDT4173-MPC.yml"
 
-echo ""
-
 # Check if the conda environment already exists
 if conda info --envs | grep -q $ENV_NAME; then
-    echo "Activating conda environment: $ENV_NAME"
+    echo -e "\nActivating conda environment: $ENV_NAME" | tee -a $LOG_FILE
     conda activate $ENV_NAME
 else
-    echo "Creating conda environment: $ENV_NAME from $ENV_PATH"
+    echo -e "\nCreating conda environment: $ENV_NAME from $ENV_PATH" | tee -a $LOG_FILE
     conda env create -f $ENV_PATH
     conda activate $ENV_NAME
 fi
 
 # Ensure the environment was activated successfully
 if [ "$CONDA_DEFAULT_ENV" != "$ENV_NAME" ]; then
-    echo "Error activating environment $ENV_NAME. Exiting."
+    echo "Error activating environment $ENV_NAME. Exiting." | tee -a $LOG_FILE
     exit 1
 else
-    echo "Successfully activated conda environment: $ENV_NAME"
+    echo "Successfully activated conda environment: $ENV_NAME" | tee -a $LOG_FILE
 fi
+
 
 ################################################################################
 #                           Preprocessing pipeline                             #
 ################################################################################
 
-echo "Starting preprocessing..." | tee -a $LOG_FILE
+echo -e "\nStarting preprocessing..." | tee -a $LOG_FILE
 
 SCRIPT_PATH="./Mathias/pipeline"
 DATA_PATH="./Mathias/pipeline/data"
-LOG_FILE="./Mathias/pipeline/preprocessing.log"
-
-# Clear the log file
-> $LOG_FILE
 
 # Import data and resample to 1 hour intervals
 FILES=$(python3 $SCRIPT_PATH/import.py)

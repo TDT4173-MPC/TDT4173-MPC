@@ -32,8 +32,8 @@ def main():
     x_target_obs_A = x_target_A.iloc[:split_index]
     x_target_est_A = x_target_A.iloc[split_index:]
 
-    x_obs_A = x_train_obs_A_resampled.merge(x_target_obs_A, left_index=True, right_on='time')
-    x_est_A = x_train_est_A_resampled.merge(x_target_est_A, left_index=True, right_on='time')
+    obs_A = x_train_obs_A_resampled.merge(x_target_obs_A, left_index=True, right_on='time')
+    est_A = x_train_est_A_resampled.merge(x_target_est_A, left_index=True, right_on='time')
 
     split_value = x_train_est_B['date_forecast'].iloc[0]
     split_index = x_target_B[x_target_B['time'] == split_value].index[0]
@@ -41,8 +41,8 @@ def main():
     x_target_obs_B = x_target_B.iloc[:split_index]
     x_target_est_B = x_target_B.iloc[split_index:]
 
-    x_obs_B = x_train_obs_B_resampled.merge(x_target_obs_B, left_index=True, right_on='time')
-    x_est_B = x_train_est_B_resampled.merge(x_target_est_B, left_index=True, right_on='time')
+    obs_B = x_train_obs_B_resampled.merge(x_target_obs_B, left_index=True, right_on='time')
+    est_B = x_train_est_B_resampled.merge(x_target_est_B, left_index=True, right_on='time')
 
     split_value = x_train_est_C['date_forecast'].iloc[0]
     split_index = x_target_C[x_target_C['time'] == split_value].index[0]
@@ -50,23 +50,23 @@ def main():
     x_target_obs_C = x_target_C.iloc[:split_index]
     x_target_est_C = x_target_C.iloc[split_index:]
 
-    x_obs_C = x_train_obs_C_resampled.merge(x_target_obs_C, left_index=True, right_on='time')
-    x_est_C = x_train_est_C_resampled.merge(x_target_est_C, left_index=True, right_on='time')
+    obs_C = x_train_obs_C_resampled.merge(x_target_obs_C, left_index=True, right_on='time')
+    est_C = x_train_est_C_resampled.merge(x_target_est_C, left_index=True, right_on='time')
 
     # Save
-    x_obs_A.to_csv('./Mathias/pipeline/data/x_obs_A.csv', index=False)
-    x_est_A.to_csv('./Mathias/pipeline/data/x_est_A.csv', index=False)
+    obs_A.to_csv('./Mathias/pipeline/data/obs_A.csv', index=False)
+    est_A.to_csv('./Mathias/pipeline/data/est_A.csv', index=False)
 
-    x_obs_B.to_csv('./Mathias/pipeline/data/x_obs_B.csv' , index=False)
-    x_est_B.to_csv('./Mathias/pipeline/data/x_est_B.csv', index=False)
+    obs_B.to_csv('./Mathias/pipeline/data/obs_B.csv' , index=False)
+    est_B.to_csv('./Mathias/pipeline/data/est_B.csv', index=False)
 
-    x_obs_C.to_csv('./Mathias/pipeline/data/x_obs_C.csv', index=False)
-    x_est_C.to_csv('./Mathias/pipeline/data/x_est_C.csv', index=False)
+    obs_C.to_csv('./Mathias/pipeline/data/obs_C.csv', index=False)
+    est_C.to_csv('./Mathias/pipeline/data/est_C.csv', index=False)
 
 
 if __name__ == '__main__':
     main()
     # Print the filenames
-    files = ["x_obs_A.csv", "x_est_A.csv", "x_obs_B.csv", "x_est_B.csv", "x_obs_C.csv", "x_est_C.csv"]
+    files = ["obs_A.csv", "est_A.csv", "obs_B.csv", "est_B.csv", "obs_C.csv", "est_C.csv"]
     for file in files:
         print(file)

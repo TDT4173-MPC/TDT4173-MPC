@@ -1,37 +1,42 @@
 
+Activating conda environment: TDT4173-MPC
+Successfully activated conda environment: TDT4173-MPC
+
+Starting preprocessing...
+
 Files to process:
-x_obs_A.csv
-x_est_A.csv
-x_obs_B.csv
-x_est_B.csv
-x_obs_C.csv
-x_est_C.csv
+obs_A.csv
+est_A.csv
+obs_B.csv
+est_B.csv
+obs_C.csv
+est_C.csv
 
 Keeping columns:
 time clear_sky_rad:W clear_sky_energy_1h:J sun_elevation:d is_day:idx direct_rad_1h:J pv_measurement diffuse_rad_1h:J pressure_100m:hPa
 
-Processed ./Mathias/pipeline/data/x_obs_A.csv
-Processed ./Mathias/pipeline/data/x_est_A.csv
-Processed ./Mathias/pipeline/data/x_obs_B.csv
-Processed ./Mathias/pipeline/data/x_est_B.csv
-Processed ./Mathias/pipeline/data/x_obs_C.csv
-Processed ./Mathias/pipeline/data/x_est_C.csv
+Processed ./Mathias/pipeline/data/obs_A.csv
+Processed ./Mathias/pipeline/data/est_A.csv
+Processed ./Mathias/pipeline/data/obs_B.csv
+Processed ./Mathias/pipeline/data/est_B.csv
+Processed ./Mathias/pipeline/data/obs_C.csv
+Processed ./Mathias/pipeline/data/est_C.csv
 
 Removing outliers and NaN rows...
-Outliers removed. Cleaned data saved to ./Mathias/pipeline/data/x_obs_A.csv.
-Outliers removed. Cleaned data saved to ./Mathias/pipeline/data/x_est_A.csv.
-Outliers removed. Cleaned data saved to ./Mathias/pipeline/data/x_obs_B.csv.
-Outliers removed. Cleaned data saved to ./Mathias/pipeline/data/x_est_B.csv.
-Outliers removed. Cleaned data saved to ./Mathias/pipeline/data/x_obs_C.csv.
-Outliers removed. Cleaned data saved to ./Mathias/pipeline/data/x_est_C.csv.
+Outliers removed. Cleaned data saved to ./Mathias/pipeline/data/obs_A.csv.
+Outliers removed. Cleaned data saved to ./Mathias/pipeline/data/est_A.csv.
+Outliers removed. Cleaned data saved to ./Mathias/pipeline/data/obs_B.csv.
+Outliers removed. Cleaned data saved to ./Mathias/pipeline/data/est_B.csv.
+Outliers removed. Cleaned data saved to ./Mathias/pipeline/data/obs_C.csv.
+Outliers removed. Cleaned data saved to ./Mathias/pipeline/data/est_C.csv.
 
 Normalizing data...
-Data normalized and saved to ./Mathias/pipeline/data/x_obs_A.csv.
-Data normalized and saved to ./Mathias/pipeline/data/x_est_A.csv.
-Data normalized and saved to ./Mathias/pipeline/data/x_obs_B.csv.
-Data normalized and saved to ./Mathias/pipeline/data/x_est_B.csv.
-Data normalized and saved to ./Mathias/pipeline/data/x_obs_C.csv.
-Data normalized and saved to ./Mathias/pipeline/data/x_est_C.csv.
+Data normalized and saved to ./Mathias/pipeline/data/obs_A.csv.
+Data normalized and saved to ./Mathias/pipeline/data/est_A.csv.
+Data normalized and saved to ./Mathias/pipeline/data/obs_B.csv.
+Data normalized and saved to ./Mathias/pipeline/data/est_B.csv.
+Data normalized and saved to ./Mathias/pipeline/data/obs_C.csv.
+Data normalized and saved to ./Mathias/pipeline/data/est_C.csv.
 
 Preprocessing completed
 
