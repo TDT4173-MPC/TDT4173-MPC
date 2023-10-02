@@ -13,46 +13,22 @@ obs_C.csv
 est_C.csv
 
 Keeping columns:
-time clear_sky_rad:W clear_sky_energy_1h:J sun_elevation:d is_day:idx direct_rad_1h:J pv_measurement diffuse_rad_1h:J pressure_100m:hPa
+pv_measurement absolute_humidity_2m:gm3 air_density_2m:kgm3 clear_sky_energy_1h:J clear_sky_rad:W dew_point_2m:K diffuse_rad:W diffuse_rad_1h:J direct_rad:W direct_rad_1h:J effective_cloud_cover:p elevation:m is_day:idx is_in_shadow:idx msl_pressure:hPa pressure_100m:hPa pressure_50m:hPa relative_humidity_1000hPa:p sfc_pressure:hPa snow_water:kgm2 sun_azimuth:d sun_elevation:d super_cooled_liquid_water:kgm2 t_1000hPa:K total_cloud_cover:p visibility:m wind_speed_10m:ms wind_speed_u_10m:ms wind_speed_v_10m:ms
 
-Processed ./Mathias/pipeline/data/obs_A.csv
-Processed ./Mathias/pipeline/data/est_A.csv
-Processed ./Mathias/pipeline/data/obs_B.csv
-Processed ./Mathias/pipeline/data/est_B.csv
-Processed ./Mathias/pipeline/data/obs_C.csv
-Processed ./Mathias/pipeline/data/est_C.csv
+Processed ./Analysis/Mathias/pipeline/data/obs_A.csv
+Processed ./Analysis/Mathias/pipeline/data/est_A.csv
+Processed ./Analysis/Mathias/pipeline/data/obs_B.csv
+Processed ./Analysis/Mathias/pipeline/data/est_B.csv
+Processed ./Analysis/Mathias/pipeline/data/obs_C.csv
+Processed ./Analysis/Mathias/pipeline/data/est_C.csv
 
-Removing outliers...
-Outliers removed. Cleaned data saved to ./Mathias/pipeline/data/obs_A.csv.
-Outliers removed. Cleaned data saved to ./Mathias/pipeline/data/est_A.csv.
-Outliers removed. Cleaned data saved to ./Mathias/pipeline/data/obs_B.csv.
-Outliers removed. Cleaned data saved to ./Mathias/pipeline/data/est_B.csv.
-Outliers removed. Cleaned data saved to ./Mathias/pipeline/data/obs_C.csv.
-Outliers removed. Cleaned data saved to ./Mathias/pipeline/data/est_C.csv.
-
-Interpolating missing values...
-Missing values interpolated and saved to ./Mathias/pipeline/data/obs_A.csv.
-Missing values interpolated and saved to ./Mathias/pipeline/data/est_A.csv.
-Missing values interpolated and saved to ./Mathias/pipeline/data/obs_B.csv.
-Missing values interpolated and saved to ./Mathias/pipeline/data/est_B.csv.
-Missing values interpolated and saved to ./Mathias/pipeline/data/obs_C.csv.
-Missing values interpolated and saved to ./Mathias/pipeline/data/est_C.csv.
-
-Adding features...
-Features added and file saved to ./Mathias/pipeline/data/obs_A.csv.
-Features added and file saved to ./Mathias/pipeline/data/est_A.csv.
-Features added and file saved to ./Mathias/pipeline/data/obs_B.csv.
-Features added and file saved to ./Mathias/pipeline/data/est_B.csv.
-Features added and file saved to ./Mathias/pipeline/data/obs_C.csv.
-Features added and file saved to ./Mathias/pipeline/data/est_C.csv.
-
-Normalizing data...
-Data normalized and saved to ./Mathias/pipeline/data/obs_A.csv.
-Data normalized and saved to ./Mathias/pipeline/data/est_A.csv.
-Data normalized and saved to ./Mathias/pipeline/data/obs_B.csv.
-Data normalized and saved to ./Mathias/pipeline/data/est_B.csv.
-Data normalized and saved to ./Mathias/pipeline/data/obs_C.csv.
-Data normalized and saved to ./Mathias/pipeline/data/est_C.csv.
+Handling NaNs...
+NaNs set to zero in ./Analysis/Mathias/pipeline/data/obs_A.csv.
+NaNs set to zero in ./Analysis/Mathias/pipeline/data/est_A.csv.
+NaNs set to zero in ./Analysis/Mathias/pipeline/data/obs_B.csv.
+NaNs set to zero in ./Analysis/Mathias/pipeline/data/est_B.csv.
+NaNs set to zero in ./Analysis/Mathias/pipeline/data/obs_C.csv.
+NaNs set to zero in ./Analysis/Mathias/pipeline/data/est_C.csv.
 
 Preprocessing completed
 

@@ -8,8 +8,14 @@ def normalize_data(df):
     # Select only numeric columns (excluding datetime columns)
     numeric_cols = df.select_dtypes(include=['number']).columns.tolist()
 
+    # Remove the target column
+    target = numeric_cols.pop(numeric_cols.index('pv_measurement'))
+
     # Normalize the numeric columns
     df[numeric_cols] = (df[numeric_cols] - df[numeric_cols].min()) / (df[numeric_cols].max() - df[numeric_cols].min())
+
+    # Add the target column back
+    numeric_cols.append(target)
 
     return df
 

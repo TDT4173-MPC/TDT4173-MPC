@@ -3,17 +3,17 @@ import pandas as pd
 def main():
 
     # Read in the data
-    x_target_A = pd.read_parquet('./data/A/train_targets.parquet')
-    x_train_obs_A = pd.read_parquet('./data/A/X_train_observed.parquet')
-    x_train_est_A = pd.read_parquet('./data/A/X_train_estimated.parquet')
+    x_target_A = pd.read_parquet('./Analysis/data/A/train_targets.parquet')
+    x_train_obs_A = pd.read_parquet('./Analysis/data/A/X_train_observed.parquet')
+    x_train_est_A = pd.read_parquet('./Analysis/data/A/X_train_estimated.parquet')
 
-    x_target_B = pd.read_parquet('./data/B/train_targets.parquet')
-    x_train_obs_B = pd.read_parquet('./data/B/X_train_observed.parquet')
-    x_train_est_B = pd.read_parquet('./data/B/X_train_estimated.parquet')
+    x_target_B = pd.read_parquet('./Analysis/data/B/train_targets.parquet')
+    x_train_obs_B = pd.read_parquet('./Analysis/data/B/X_train_observed.parquet')
+    x_train_est_B = pd.read_parquet('./Analysis/data/B/X_train_estimated.parquet')
 
-    x_target_C = pd.read_parquet('./data/C/train_targets.parquet')
-    x_train_obs_C = pd.read_parquet('./data/C/X_train_observed.parquet')
-    x_train_est_C = pd.read_parquet('./data/C/X_train_estimated.parquet')
+    x_target_C = pd.read_parquet('./Analysis/data/C/train_targets.parquet')
+    x_train_obs_C = pd.read_parquet('./Analysis/data/C/X_train_observed.parquet')
+    x_train_est_C = pd.read_parquet('./Analysis/data/C/X_train_estimated.parquet')
 
     # Resample
     x_train_obs_A_resampled = x_train_obs_A.set_index('date_forecast').resample('1H').mean()
@@ -54,14 +54,14 @@ def main():
     est_C = x_train_est_C_resampled.merge(x_target_est_C, left_index=True, right_on='time')
 
     # Save
-    obs_A.to_csv('./Mathias/pipeline/data/obs_A.csv', index=False)
-    est_A.to_csv('./Mathias/pipeline/data/est_A.csv', index=False)
+    obs_A.to_csv('./Analysis/Mathias/pipeline/data/obs_A.csv', index=False)
+    est_A.to_csv('./Analysis/Mathias/pipeline/data/est_A.csv', index=False)
 
-    obs_B.to_csv('./Mathias/pipeline/data/obs_B.csv' , index=False)
-    est_B.to_csv('./Mathias/pipeline/data/est_B.csv', index=False)
+    obs_B.to_csv('./Analysis/Mathias/pipeline/data/obs_B.csv' , index=False)
+    est_B.to_csv('./Analysis/Mathias/pipeline/data/est_B.csv', index=False)
 
-    obs_C.to_csv('./Mathias/pipeline/data/obs_C.csv', index=False)
-    est_C.to_csv('./Mathias/pipeline/data/est_C.csv', index=False)
+    obs_C.to_csv('./Analysis/Mathias/pipeline/data/obs_C.csv', index=False)
+    est_C.to_csv('./Analysis/Mathias/pipeline/data/est_C.csv', index=False)
 
 
 if __name__ == '__main__':
