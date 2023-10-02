@@ -9,8 +9,6 @@ def main(columns_string, file_path):
     # Convert columns to list
     columns_to_keep = columns_string.split()
 
-    print(f"Keeping columns: {columns_to_keep}")
-
     # Read the data
     df = pd.read_csv(file_path)
     

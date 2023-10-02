@@ -11,6 +11,8 @@ source ~/anaconda3/bin/activate
 ENV_NAME="TDT4173-MPC"
 ENV_PATH="Analysis/TDT4173-MPC.yml"
 
+echo ""
+
 # Check if the conda environment already exists
 if conda info --envs | grep -q $ENV_NAME; then
     echo "Activating conda environment: $ENV_NAME"
@@ -39,7 +41,8 @@ SCRIPT_PATH="./Mathias/pipeline"
 DATA_PATH="./Mathias/pipeline/data"
 
 # Import data and resample to 1 hour intervals
-python3 $SCRIPT_PATH/import.py
+FILES=$(python3 $SCRIPT_PATH/import.py)
+echo -e "\nFiles to process:\n$FILES\n"
 
 # Remove columns that are not needed
 COLUMNS_TO_KEEP="\
@@ -52,30 +55,25 @@ pv_measurement \
 diffuse_rad_1h:J \
 pressure_100m:hPa"
 
-echo "Keeping columns: $COLUMNS_TO_KEEP"
+echo -e "Keeping columns:\n$COLUMNS_TO_KEEP\n"
 
-python3 $SCRIPT_PATH/keep_columns.py "$COLUMNS_TO_KEEP" $DATA_PATH/x_obs_A.csv
-python3 $SCRIPT_PATH/keep_columns.py "$COLUMNS_TO_KEEP" $DATA_PATH/x_est_A.csv
-python3 $SCRIPT_PATH/keep_columns.py "$COLUMNS_TO_KEEP" $DATA_PATH/x_obs_B.csv
-python3 $SCRIPT_PATH/keep_columns.py "$COLUMNS_TO_KEEP" $DATA_PATH/x_est_B.csv
-python3 $SCRIPT_PATH/keep_columns.py "$COLUMNS_TO_KEEP" $DATA_PATH/x_obs_C.csv
-python3 $SCRIPT_PATH/keep_columns.py "$COLUMNS_TO_KEEP" $DATA_PATH/x_est_C.csv
+for file in $FILES; do
+    python3 $SCRIPT_PATH/keep_columns.py "$COLUMNS_TO_KEEP" $DATA_PATH/$file
+done
 
-# Remove outliers and NaNs
-python3 $SCRIPT_PATH/remove_outliers.py $DATA_PATH/x_obs_A.csv
-python3 $SCRIPT_PATH/remove_outliers.py $DATA_PATH/x_est_A.csv
-python3 $SCRIPT_PATH/remove_outliers.py $DATA_PATH/x_obs_B.csv
-python3 $SCRIPT_PATH/remove_outliers.py $DATA_PATH/x_est_B.csv
-python3 $SCRIPT_PATH/remove_outliers.py $DATA_PATH/x_obs_C.csv
-python3 $SCRIPT_PATH/remove_outliers.py $DATA_PATH/x_est_C.csv
+
+# Removing outliers and NaN rows
+echo -e "\nRemoving outliers and NaN rows..."
+for file in $FILES; do
+    python3 $SCRIPT_PATH/remove_outliers.py $DATA_PATH/$file
+done
 
 # Normalize data
-python3 $SCRIPT_PATH/normalize.py $DATA_PATH/x_obs_A.csv
-python3 $SCRIPT_PATH/normalize.py $DATA_PATH/x_est_A.csv
-python3 $SCRIPT_PATH/normalize.py $DATA_PATH/x_obs_B.csv
-python3 $SCRIPT_PATH/normalize.py $DATA_PATH/x_est_B.csv
-python3 $SCRIPT_PATH/normalize.py $DATA_PATH/x_obs_C.csv
-python3 $SCRIPT_PATH/normalize.py $DATA_PATH/x_est_C.csv
+echo -e "\nNormalizing data..."
+for file in $FILES; do
+    python3 $SCRIPT_PATH/normalize.py $DATA_PATH/$file
+done
 
-echo "Preprocessing completed."
+echo -e "\nPreprocessing completed\n"
+
 

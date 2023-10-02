@@ -66,3 +66,7 @@ def main():
 
 if __name__ == '__main__':
     main()
+    # Print the filenames
+    files = ["x_obs_A.csv", "x_est_A.csv", "x_obs_B.csv", "x_est_B.csv", "x_obs_C.csv", "x_est_C.csv"]
+    for file in files:
+        print(file)
