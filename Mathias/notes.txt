@@ -1,5 +1,0 @@
-Things to look into:
-
-Data vectorization (tsfresh)
-One-hot encoding for categorical features
-Normalization
