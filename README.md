@@ -4,12 +4,17 @@ Tools for data analysis.
 
 ### Virtual environment
 
-All team members can recreate the virtual environment by creating an environment:
+All team members can recreate the virtual environment by creating the venv by running the conda.sh file from the Analysis folder.
+First give the computer access to run the script by running:
 ```
-conda env create -f TDT4173-MPC.yml
+chmod +x venv/conda.sh
+```
+Then build the virtual environment by running the script
+```
+venv/conda.sh
 ```
 
-And activating the environment by using:
+And activate the venv in you current shell by typing the prompted command from the script.
 ```
 conda activate TDT4173-MPC
 ```
