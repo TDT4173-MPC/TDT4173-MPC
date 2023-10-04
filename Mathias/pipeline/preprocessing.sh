@@ -8,35 +8,6 @@ DATA_PATH="./Analysis/Mathias/pipeline/data"
 > $LOG_FILE
 
 
-################################################################################
-#                               Virtual environment                            #
-################################################################################
-
-# Source Conda's shell functions
-source ~/anaconda3/bin/activate
-
-# Name of the conda environment
-ENV_NAME="TDT4173-MPC"
-ENV_PATH="Analysis/TDT4173-MPC.yml"
-
-# Check if the conda environment already exists
-if conda info --envs | grep -q $ENV_NAME; then
-    echo -e "\nActivating conda environment: $ENV_NAME" | tee -a $LOG_FILE
-    conda activate $ENV_NAME
-else
-    echo -e "\nCreating conda environment: $ENV_NAME from $ENV_PATH" | tee -a $LOG_FILE
-    conda env create -f $ENV_PATH
-    conda activate $ENV_NAME
-fi
-
-# Ensure the environment was activated successfully
-if [ "$CONDA_DEFAULT_ENV" != "$ENV_NAME" ]; then
-    echo "Error activating environment $ENV_NAME. Exiting." | tee -a $LOG_FILE
-    exit 1
-else
-    echo "Successfully activated conda environment: $ENV_NAME" | tee -a $LOG_FILE
-fi
-
 
 ################################################################################
 #                           Preprocessing pipeline                             #
