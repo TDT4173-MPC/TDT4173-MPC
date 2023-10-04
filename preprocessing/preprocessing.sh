@@ -13,8 +13,9 @@ DATA_PATH="preprocessing/data"
 
 # Define scripts to run
 SCRIPTS=(
-"keep_columns.py" \
-"handle_nan.py"
+"handle_nan.py" \
+"normalize_pressure.py"
+#"remove_outliers.py"
 )
 
 # Remove columns that are not needed
@@ -22,13 +23,10 @@ COLUMNS_TO_KEEP="\
 pv_measurement \
 absolute_humidity_2m:gm3 \
 air_density_2m:kgm3 \
-clear_sky_energy_1h:J \
 clear_sky_rad:W \
 dew_point_2m:K \
 diffuse_rad:W \
-diffuse_rad_1h:J \
 direct_rad:W \
-direct_rad_1h:J \
 effective_cloud_cover:p \
 elevation:m \
 is_day:idx \
@@ -49,7 +47,15 @@ wind_speed_10m:ms \
 wind_speed_u_10m:ms \
 wind_speed_v_10m:ms"
 
+COLUMNS_LEFT="\
+clear_sky_energy_1h:J \
+diffuse_rad_1h:J \
+direct_rad_1h:J"
+
+# Print info to log file
 echo -e "\nStarting preprocessing..." | tee -a $LOG_FILE
+echo -e "\nKeeping columns:\n$COLUMNS_TO_KEEP\n" | tee -a $LOG_FILE
+
 
 # Import data and resample to 1 hour intervals
 FILES=$(python3 $SCRIPT_PATH/import.py)
@@ -78,9 +84,16 @@ process_files() {
     done
 }
 
-# Loop through scripts and process files
+# Run keep_columns.py on all files first
+process_files "keep_columns.py"
+
+# Remove test files from FILES variable
+FILES=$(echo "$FILES" | grep -v "test_")
+
+# Loop through the remaining scripts and process files
 for script in "${SCRIPTS[@]}"; do
     process_files "$script"
 done
 
 echo -e "\nPreprocessing completed\n" | tee -a $LOG_FILE
+

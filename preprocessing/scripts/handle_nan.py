@@ -9,7 +9,7 @@ def handle_nan(df):
 
 def main(input_file):
     # Read the data
-    df = pd.read_csv(input_file)
+    df = pd.read_parquet(input_file)
 
     # Remove the rows where target is nan
     df = df[df['pv_measurement'].notna()]
@@ -18,7 +18,7 @@ def main(input_file):
     df_handled = handle_nan(df)
 
     # Save the handled data back to the same path
-    df_handled.to_csv(input_file, index=False)
+    df_handled.to_parquet(input_file, index=False)
     print(f"NaNs set to zero in {input_file}.")
 
 if __name__ == "__main__":

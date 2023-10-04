@@ -9,13 +9,13 @@ def add_features(df):
 
 def main(input_file):
     # Read the data
-    df = pd.read_csv(input_file)
+    df = pd.read_parquet(input_file)
 
     # Add features
     modified_df = add_features(df)
 
     # Save the normalized data back to the same path
-    modified_df.to_csv(input_file, index=False)
+    modified_df.to_parquet(input_file, index=False)
     print(f"Features added and file saved to {input_file}.")
 
 if __name__ == "__main__":
