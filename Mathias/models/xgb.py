@@ -1,6 +1,7 @@
 # Data libraries
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 
 # Metrics
 from sklearn.metrics import mean_absolute_error
@@ -8,12 +9,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_score
 
 # Models
-from sklearn.linear_model import LinearRegression
-from sklearn.tree import DecisionTreeRegressor
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.ensemble import StackingRegressor
-from mlxtend.regressor import StackingCVRegressor
-from sklearn.ensemble import AdaBoostRegressor
 from xgboost import XGBRegressor
 
 # Utils
@@ -73,37 +68,51 @@ X_C = C.drop(columns=['pv_measurement'])
 y_C = C['pv_measurement']
 
 # Split into train and test
-# X_train_A, X_test_A, y_train_A, y_test_A = train_test_split(X_A, y_A, test_size=0.2, shuffle=False)
-# X_train_B, X_test_B, y_train_B, y_test_B = train_test_split(X_B, y_B, test_size=0.2, shuffle=False)
-# X_train_C, X_test_C, y_train_C, y_test_C = train_test_split(X_C, y_C, test_size=0.2, shuffle=False)
+X_train_A, X_test_A, y_train_A, y_test_A = train_test_split(X_A, y_A, test_size=0.2, shuffle=False)
+X_train_B, X_test_B, y_train_B, y_test_B = train_test_split(X_B, y_B, test_size=0.2, shuffle=False)
+X_train_C, X_test_C, y_train_C, y_test_C = train_test_split(X_C, y_C, test_size=0.2, shuffle=False)
 
-# Train models
-# Define base models
-base_models = [
-    ('lr', LinearRegression()),
-    ('rf', RandomForestRegressor(criterion='absolute_error')),
-    #('ada', AdaBoostRegressor()),
-    #('xgb', XGBRegressor())
-]
-
-# Initialize StackingRegressor with the base models and a meta-model
-stack_A = StackingRegressor(estimators=base_models, final_estimator=LinearRegression())
-stack_B = StackingRegressor(estimators=base_models, final_estimator=LinearRegression())
-stack_C = StackingRegressor(estimators=base_models, final_estimator=LinearRegression())
+# Define models
+xgb_A = XGBRegressor(n_estimators=20, learning_rate=0.01, max_depth=6, random_state=0)
+xgb_B = XGBRegressor(n_estimators=20, learning_rate=0.01, max_depth=6, random_state=0)
+xgb_C = XGBRegressor(n_estimators=20, learning_rate=0.01, max_depth=6, random_state=0)
+evals_results_A = {}
+evals_results_B = {}
+evals_results_C = {}
 
 # Train the models
 print('Training models...')
-stack_A.fit(X_A, y_A)
+xgb_A.fit(X_A, y_A)
 print('A done')
-stack_B.fit(X_B, y_B)
+xgb_B.fit(X_B, y_B)
 print('B done')
-stack_C.fit(X_C, y_C)
+xgb_C.fit(X_C, y_C)
 print('C done')
 
+# Fit the models
+xgb_A.fit(X_train_A, y_train_A, eval_set=[(X_train_A, y_train_A), (X_test_A, y_test_A)], eval_metric="mae", verbose=True)
+xgb_B.fit(X_train_B, y_train_B, eval_set=[(X_train_B, y_train_B), (X_test_B, y_test_B)], eval_metric="mae", verbose=True)
+xgb_C.fit(X_train_C, y_train_C, eval_set=[(X_train_C, y_train_C), (X_test_C, y_test_C)], eval_metric="mae", verbose=True)
+
+evals_results_A = xgb_A.evals_result()
+evals_results_B = xgb_B.evals_result()
+evals_results_C = xgb_C.evals_result()
+
+# Plotting training and validation errors
+train_errors = evals_results_A['validation_0']['mae']
+val_errors = evals_results_A['validation_1']['mae']
+plt.plot(train_errors, label='Train')
+plt.plot(val_errors, label='Validation')
+plt.xlabel('Boosting Round')
+plt.ylabel('MAE')
+plt.title('Training and Validation Errors for Model A')
+plt.legend()
+plt.show()
+
 # Predict
-pred_A = stack_A.predict(test_A)
-pred_B = stack_B.predict(test_B)
-pred_C = stack_C.predict(test_C)
+pred_A = xgb_A.predict(test_A)
+pred_B = xgb_B.predict(test_B)
+pred_C = xgb_C.predict(test_C)
 
 # Clip negative values to 0
 pred_A = np.clip(pred_A, 0, None)
