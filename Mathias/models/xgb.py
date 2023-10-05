@@ -73,9 +73,9 @@ X_train_B, X_test_B, y_train_B, y_test_B = train_test_split(X_B, y_B, test_size=
 X_train_C, X_test_C, y_train_C, y_test_C = train_test_split(X_C, y_C, test_size=0.2, shuffle=False)
 
 # Define models
-xgb_A = XGBRegressor(n_estimators=20, learning_rate=0.01, max_depth=6, random_state=0)
-xgb_B = XGBRegressor(n_estimators=20, learning_rate=0.01, max_depth=6, random_state=0)
-xgb_C = XGBRegressor(n_estimators=20, learning_rate=0.01, max_depth=6, random_state=0)
+xgb_A = XGBRegressor(n_estimators=300, learning_rate=0.01, max_depth=7, random_state=0)
+xgb_B = XGBRegressor(n_estimators=300, learning_rate=0.01, max_depth=7, random_state=0)
+xgb_C = XGBRegressor(n_estimators=300, learning_rate=0.01, max_depth=7, random_state=0)
 evals_results_A = {}
 evals_results_B = {}
 evals_results_C = {}

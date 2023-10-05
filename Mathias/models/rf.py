@@ -177,6 +177,7 @@ Feature ranking for A:
 29. is_day:idx (7.475771815869555e-07)
 30. elevation:m (1.6431583418104023e-08)
 31. calc_time_before (0.0)
+
 Feature ranking for B:
 1. sun_elevation:d (0.6057953317124253)
 2. direct_rad:W (0.1433656249457944)
@@ -209,6 +210,7 @@ Feature ranking for B:
 29. is_day:idx (1.970532026139457e-05)
 30. elevation:m (4.060738392004891e-08)
 31. calc_time_before (0.0)
+
 Feature ranking for C:
 1. sun_elevation:d (0.5872690370542192)
 2. direct_rad:W (0.0971182810556481)

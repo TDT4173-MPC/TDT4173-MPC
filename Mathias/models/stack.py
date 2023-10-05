@@ -82,8 +82,8 @@ y_C = C['pv_measurement']
 base_models = [
     ('lr', LinearRegression()),
     ('rf', RandomForestRegressor(criterion='absolute_error')),
-    #('ada', AdaBoostRegressor()),
-    #('xgb', XGBRegressor())
+    ('ada', AdaBoostRegressor()),
+    ('xgb', XGBRegressor())
 ]
 
 # Initialize StackingRegressor with the base models and a meta-model
