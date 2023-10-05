@@ -11,8 +11,8 @@ def remove_outliers(df):
     IQR = Q3 - Q1
 
     # Define bounds
-    lower_bound = Q1 - 1.5 * IQR
-    upper_bound = Q3 + 1.5 * IQR
+    lower_bound = Q1 - 3 * IQR
+    upper_bound = Q3 + 4 * IQR
 
     # Filter out outliers for numeric columns only
     for col in numeric_cols:
@@ -23,13 +23,13 @@ def remove_outliers(df):
 
 def main(input_file, output_file):
     # Read the data
-    df = pd.read_csv(input_file)
+    df = pd.read_parquet(input_file)
 
     # Remove outliers
     df_no_outliers = remove_outliers(df)
 
     # Save the cleaned data
-    df_no_outliers.to_csv(output_file, index=False)
+    df_no_outliers.to_parquet(output_file, index=False)
     print(f"Outliers removed. Cleaned data saved to {output_file}.")
 
 

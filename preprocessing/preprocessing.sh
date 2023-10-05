@@ -11,24 +11,30 @@ DATA_PATH="preprocessing/data"
 #                           Preprocessing pipeline                             #
 ################################################################################
 
-# Define scripts to run
+# Define scripts to run on training data files
 SCRIPTS=(
+"handle_nan.py" \
+"normalize_pressure.py"
+)
+
+# Define scripts to run on all files including test files
+SCRIPTS_ALL=(
 "keep_columns.py" \
-"handle_nan.py"
+"add_time_features.py"
+#"add_calc_time.py"
 )
 
 # Remove columns that are not needed
 COLUMNS_TO_KEEP="\
 pv_measurement \
+date_forecast \
+time \
 absolute_humidity_2m:gm3 \
 air_density_2m:kgm3 \
-clear_sky_energy_1h:J \
 clear_sky_rad:W \
 dew_point_2m:K \
 diffuse_rad:W \
-diffuse_rad_1h:J \
 direct_rad:W \
-direct_rad_1h:J \
 effective_cloud_cover:p \
 elevation:m \
 is_day:idx \
@@ -41,15 +47,25 @@ sfc_pressure:hPa \
 snow_water:kgm2 \
 sun_azimuth:d \
 sun_elevation:d \
-super_cooled_liquid_water:kgm2 \
 t_1000hPa:K \
 total_cloud_cover:p \
 visibility:m \
 wind_speed_10m:ms \
 wind_speed_u_10m:ms \
-wind_speed_v_10m:ms"
+wind_speed_v_10m:ms \
+clear_sky_energy_1h:J \
+diffuse_rad_1h:J \
+direct_rad_1h:J \
+date_calc"
 
+COLUMNS_LEFT="\
+super_cooled_liquid_water:kgm2"
+
+
+# Print info to log file
 echo -e "\nStarting preprocessing..." | tee -a $LOG_FILE
+echo -e "\nKeeping columns:\n$COLUMNS_TO_KEEP\n" | tee -a $LOG_FILE
+
 
 # Import data and resample to 1 hour intervals
 FILES=$(python3 $SCRIPT_PATH/import.py)
@@ -78,9 +94,18 @@ process_files() {
     done
 }
 
-# Loop through scripts and process files
+# Scripts to run on all files including test files
+for script in "${SCRIPTS_ALL[@]}"; do
+    process_files "$script"
+done
+
+# Remove test files from FILES variable
+FILES=$(echo "$FILES" | grep -v "test_")
+
+# Loop through the remaining scripts and process files
 for script in "${SCRIPTS[@]}"; do
     process_files "$script"
 done
 
 echo -e "\nPreprocessing completed\n" | tee -a $LOG_FILE
+
