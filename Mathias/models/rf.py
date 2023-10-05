@@ -41,7 +41,7 @@ def create_submission(pred_A, pred_B, pred_C, output_file="submission.csv"):
 
 
 # Read in the data
-data_path = 'Analysis/preprocessing/data'
+data_path = './preprocessing/Data'
 obs_A = pd.read_parquet(f'{data_path}/obs_A.parquet')
 est_A = pd.read_parquet(f'{data_path}/est_A.parquet')
 obs_B = pd.read_parquet(f'{data_path}/obs_B.parquet')
@@ -139,7 +139,7 @@ for i in range(X_C.shape[1]):
 
 
 # Create submission
-create_submission(pred_A, pred_B, pred_C, output_file="Analysis/Mathias/submission.csv")
+create_submission(pred_A, pred_B, pred_C, output_file="./Mathias/submission.csv")
 
 
 

@@ -2,7 +2,7 @@
 
 LOG_FILE="preprocessing/preprocessing.log"
 SCRIPT_PATH="preprocessing/scripts"
-DATA_PATH="preprocessing/data"
+DATA_PATH="preprocessing/Data"
 
 # Clear the log file
 > $LOG_FILE
@@ -20,8 +20,8 @@ SCRIPTS=(
 # Define scripts to run on all files including test files
 SCRIPTS_ALL=(
 "keep_columns.py" \
-"add_time_features.py"
-#"add_calc_time.py"
+"add_time_features.py" \
+"add_calc_time.py"
 )
 
 # Remove columns that are not needed

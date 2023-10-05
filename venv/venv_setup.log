@@ -25,3 +25,7 @@ Successfully prepared conda environment: TDT4173-MPC
 Conda environment TDT4173-MPC already exists.
 
 Updating conda environment: TDT4173-MPC based on ./venv/TDT4173-MPC.yml
+-e 
+Conda environment TDT4173-MPC already exists.
+-e 
+Updating conda environment: TDT4173-MPC based on ./venv/TDT4173-MPC.yml

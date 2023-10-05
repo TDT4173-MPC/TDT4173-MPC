@@ -2,7 +2,7 @@
 
 LOG_FILE="./Analysis/Mathias/pipeline/preprocessing.log"
 SCRIPT_PATH="./Analysis/Mathias/pipeline"
-DATA_PATH="./Analysis/Mathias/pipeline/data"
+DATA_PATH="./Analysis/Mathias/pipeline/Data"
 
 # Clear the log file
 > $LOG_FILE
