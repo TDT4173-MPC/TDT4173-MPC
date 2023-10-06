@@ -19,9 +19,9 @@ SCRIPTS=(
 
 # Define scripts to run on all files including test files
 SCRIPTS_ALL=(
-"keep_columns.py" \
-"add_time_features.py" \
-"add_calc_time.py"
+"keep_columns.py" 
+#"add_time_features.py" 
+##"add_calc_time.py"
 )
 
 # Remove columns that are not needed

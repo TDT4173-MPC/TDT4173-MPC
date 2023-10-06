@@ -1,8 +1,8 @@
 #!/bin/bash
 
-LOG_FILE="./Analysis/Mathias/pipeline/preprocessing.log"
-SCRIPT_PATH="./Analysis/Mathias/pipeline"
-DATA_PATH="./Analysis/Mathias/pipeline/Data"
+LOG_FILE="./Christoffer/pipeline/preprocessing.log"
+SCRIPT_PATH="./Christoffer/pipeline"
+DATA_PATH=".//Christoffer/pipeline/Data"
 
 # Clear the log file
 > $LOG_FILE
