@@ -12,9 +12,12 @@ from sklearn.linear_model import LinearRegression
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.ensemble import StackingRegressor
+from sklearn.base import BaseEstimator, RegressorMixin
+from statsmodels.tsa.statespace.sarimax import SARIMAX
 from mlxtend.regressor import StackingCVRegressor
 from sklearn.ensemble import AdaBoostRegressor
 from xgboost import XGBRegressor
+import pickle
 
 # Utils
 def create_submission(pred_A, pred_B, pred_C, output_file="submission.csv"):
@@ -46,8 +49,33 @@ def create_submission(pred_A, pred_B, pred_C, output_file="submission.csv"):
     print(f"Submission saved to {output_file}")
 
 
+class SARIMAXEstimator(BaseEstimator, RegressorMixin):
+    def __init__(self, order=(1,1,1), seasonal_order=(1,1,1,24), model_path=''):
+        self.order = order
+        self.seasonal_order = seasonal_order
+        self.model = None
+        self.model_path = model_path
+        self.results = None
+
+    def load_model(self):
+        if self.model_path:
+            self.results = pickle.load(open(self.model_path, 'rb'))
+
+    def fit(self, X, y):
+        if self.results is None:  # Only fit if the model hasn't been loaded
+            self.model = SARIMAX(y, exog=X, order=self.order, seasonal_order=self.seasonal_order)
+            self.results = self.model.fit()
+        return self
+
+    def predict(self, X):
+        start = self.results.fittedvalues.shape[0]
+        end = start + len(X) - 1
+        return self.results.predict(start=start, end=end, exog=X)
+
+
+
 # Read in the data
-data_path = 'Analysis/preprocessing/data'
+data_path = './preprocessing/data'
 obs_A = pd.read_parquet(f'{data_path}/obs_A.parquet')
 est_A = pd.read_parquet(f'{data_path}/est_A.parquet')
 obs_B = pd.read_parquet(f'{data_path}/obs_B.parquet')
@@ -73,9 +101,9 @@ X_C = C.drop(columns=['pv_measurement'])
 y_C = C['pv_measurement']
 
 # Split into train and test
-# X_train_A, X_test_A, y_train_A, y_test_A = train_test_split(X_A, y_A, test_size=0.2, shuffle=False)
-# X_train_B, X_test_B, y_train_B, y_test_B = train_test_split(X_B, y_B, test_size=0.2, shuffle=False)
-# X_train_C, X_test_C, y_train_C, y_test_C = train_test_split(X_C, y_C, test_size=0.2, shuffle=False)
+X_train_A, X_test_A, y_train_A, y_test_A = train_test_split(X_A, y_A, test_size=0.2, shuffle=False)
+X_train_B, X_test_B, y_train_B, y_test_B = train_test_split(X_B, y_B, test_size=0.2, shuffle=False)
+X_train_C, X_test_C, y_train_C, y_test_C = train_test_split(X_C, y_C, test_size=0.2, shuffle=False)
 
 # Train models
 # Define base models
@@ -111,5 +139,5 @@ pred_B = np.clip(pred_B, 0, None)
 pred_C = np.clip(pred_C, 0, None)
 
 # Create submission
-create_submission(pred_A, pred_B, pred_C, output_file="Analysis/Mathias/submission.csv")
+create_submission(pred_A, pred_B, pred_C, output_file="./Mathias/submission.csv")
 

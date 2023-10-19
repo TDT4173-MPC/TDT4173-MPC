@@ -41,22 +41,25 @@ def create_submission(pred_A, pred_B, pred_C, output_file="submission.csv"):
 
 
 # Read in the data
-data_path = 'Analysis/preprocessing/data'
-obs_A = pd.read_parquet(f'{data_path}/obs_A.parquet')
-est_A = pd.read_parquet(f'{data_path}/est_A.parquet')
-obs_B = pd.read_parquet(f'{data_path}/obs_B.parquet')
-est_B = pd.read_parquet(f'{data_path}/est_B.parquet')
-obs_C = pd.read_parquet(f'{data_path}/obs_C.parquet')
-est_C = pd.read_parquet(f'{data_path}/est_C.parquet')
+data_path = './preprocessing/data'
+obs_A = pd.read_parquet(f'{data_path}/obs_A.parquet').drop(columns='date_forecast')
+est_A = pd.read_parquet(f'{data_path}/est_A.parquet').drop(columns='date_forecast')
+obs_B = pd.read_parquet(f'{data_path}/obs_B.parquet').drop(columns='date_forecast')
+est_B = pd.read_parquet(f'{data_path}/est_B.parquet').drop(columns='date_forecast')
+obs_C = pd.read_parquet(f'{data_path}/obs_C.parquet').drop(columns='date_forecast')
+est_C = pd.read_parquet(f'{data_path}/est_C.parquet').drop(columns='date_forecast')
 
-test_A = pd.read_parquet(f'{data_path}/test_A.parquet').dropna()
-test_B = pd.read_parquet(f'{data_path}/test_B.parquet').dropna()
-test_C = pd.read_parquet(f'{data_path}/test_C.parquet').dropna()
+test_A = pd.read_parquet(f'{data_path}/test_A.parquet').dropna().drop(columns='date_forecast')
+test_B = pd.read_parquet(f'{data_path}/test_B.parquet').dropna().drop(columns='date_forecast')
+test_C = pd.read_parquet(f'{data_path}/test_C.parquet').dropna().drop(columns='date_forecast')
 
 # Concatenate
-A = pd.concat([obs_A, est_A])
-B = pd.concat([obs_B, est_B])
-C = pd.concat([obs_C, est_C])
+# A = pd.concat([obs_A, est_A])
+# B = pd.concat([obs_B, est_B])
+# C = pd.concat([obs_C, est_C])
+A = obs_A
+B = obs_B
+C = obs_C
 
 print(A.columns)
 
@@ -75,9 +78,9 @@ y_C = C['pv_measurement']
 
 # Train models
 # Initialize StackingRegressor with the base models and a meta-model
-rf_A = RandomForestRegressor(n_estimators=100, max_depth=5)
-rf_B = RandomForestRegressor(n_estimators=100, max_depth=5)
-rf_C = RandomForestRegressor(n_estimators=100, max_depth=5)
+rf_A = RandomForestRegressor(n_estimators=100, max_depth=15)
+rf_B = RandomForestRegressor(n_estimators=100, max_depth=15)
+rf_C = RandomForestRegressor(n_estimators=100, max_depth=15)
 
 # Train the models
 print('Training models...')
@@ -139,7 +142,7 @@ for i in range(X_C.shape[1]):
 
 
 # Create submission
-create_submission(pred_A, pred_B, pred_C, output_file="Analysis/Mathias/submission.csv")
+create_submission(pred_A, pred_B, pred_C, output_file="./Mathias/submission.csv")
 
 
 

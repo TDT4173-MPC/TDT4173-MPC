@@ -21,7 +21,7 @@ def add_date_features(df):
         print("Warning: 'date_forecast' column not found in the dataframe. No date features added.")
         return df
     
-    return df.drop(columns=['date_forecast'])
+    return df
 
 def main(input_file):
     # Read the data

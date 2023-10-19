@@ -11,12 +11,6 @@ DATA_PATH="preprocessing/data"
 #                           Preprocessing pipeline                             #
 ################################################################################
 
-# Define scripts to run on training data files
-SCRIPTS=(
-"handle_nan.py" \
-"normalize_pressure.py"
-)
-
 # Define scripts to run on all files including test files
 SCRIPTS_ALL=(
 "keep_columns.py" \
@@ -24,42 +18,49 @@ SCRIPTS_ALL=(
 #"add_calc_time.py"
 )
 
+# Define scripts to run on training data files
+SCRIPTS=(
+"handle_nan.py" \
+"normalize_pressure.py"
+)
+
 # Remove columns that are not needed
 COLUMNS_TO_KEEP="\
 pv_measurement \
 date_forecast \
+diffuse_rad:W \
+diffuse_rad_1h:J \
+sfc_pressure:hPa \
+direct_rad:W \
+visibility:m \
+is_day:idx \
+is_in_shadow:idx \
+effective_cloud_cover:p \
+sun_elevation:d \
+direct_rad_1h:J \
+clear_sky_energy_1h:J"
+
+COLUMNS_LEFT="\
+super_cooled_liquid_water:kgm2 \
+t_1000hPa:K \
+total_cloud_cover:p \
+wind_speed_10m:ms \
+wind_speed_u_10m:ms \
+wind_speed_v_10m:ms \
+elevation:m \
+msl_pressure:hPa \
+pressure_100m:hPa \
+pressure_50m:hPa \
+relative_humidity_1000hPa:p \
+snow_water:kgm2 \
 time \
 absolute_humidity_2m:gm3 \
 air_density_2m:kgm3 \
 clear_sky_rad:W \
 dew_point_2m:K \
-diffuse_rad:W \
-direct_rad:W \
-effective_cloud_cover:p \
-elevation:m \
-is_day:idx \
-is_in_shadow:idx \
-msl_pressure:hPa \
-pressure_100m:hPa \
-pressure_50m:hPa \
-relative_humidity_1000hPa:p \
-sfc_pressure:hPa \
-snow_water:kgm2 \
 sun_azimuth:d \
-sun_elevation:d \
-t_1000hPa:K \
-total_cloud_cover:p \
-visibility:m \
-wind_speed_10m:ms \
-wind_speed_u_10m:ms \
-wind_speed_v_10m:ms \
-clear_sky_energy_1h:J \
-diffuse_rad_1h:J \
-direct_rad_1h:J \
 date_calc"
 
-COLUMNS_LEFT="\
-super_cooled_liquid_water:kgm2"
 
 
 # Print info to log file
