@@ -1,6 +1,7 @@
 # Data libraries
 import pandas as pd
 import numpy as np
+from tqdm import tqdm  # for the progress bar
 
 # Metrics
 from sklearn.metrics import mean_absolute_error
@@ -47,7 +48,7 @@ def create_submission(pred_A, pred_B, pred_C, output_file="submission.csv"):
 
 
 # Read in the data
-data_path = 'Analysis/preprocessing/data'
+data_path = './preprocessing/data'
 obs_A = pd.read_parquet(f'{data_path}/obs_A.parquet')
 est_A = pd.read_parquet(f'{data_path}/est_A.parquet')
 obs_B = pd.read_parquet(f'{data_path}/obs_B.parquet')
@@ -88,28 +89,41 @@ base_models = [
 
 # Initialize StackingRegressor with the base models and a meta-model
 stack_A = StackingRegressor(estimators=base_models, final_estimator=LinearRegression())
-stack_B = StackingRegressor(estimators=base_models, final_estimator=LinearRegression())
-stack_C = StackingRegressor(estimators=base_models, final_estimator=LinearRegression())
+# stack_B = StackingRegressor(estimators=base_models, final_estimator=LinearRegression())
+# stack_C = StackingRegressor(estimators=base_models, final_estimator=LinearRegression())
 
 # Train the models
-print('Training models...')
+print('Training base models for A...')
+# Initialize an empty dictionary to hold your trained base models for A
+trained_base_models_A = {}
+
+# Loop through base_models and fit them while updating tqdm progress bar
+for name, model in tqdm(base_models):
+    model.fit(X_A, y_A)
+    trained_base_models_A[name] = model
+
+print('Base models for A are done.')
+
+# Now, fit the stack_A model
+print('Training stack model for A...')
+stack_A = StackingRegressor(estimators=base_models, final_estimator=LinearRegression())
 stack_A.fit(X_A, y_A)
-print('A done')
-stack_B.fit(X_B, y_B)
-print('B done')
-stack_C.fit(X_C, y_C)
-print('C done')
+print('Stack model for A is done.')
+# stack_B.fit(X_B, y_B)
+# print('B done')
+# stack_C.fit(X_C, y_C)
+# print('C done')
 
 # Predict
 pred_A = stack_A.predict(test_A)
-pred_B = stack_B.predict(test_B)
-pred_C = stack_C.predict(test_C)
+# pred_B = stack_B.predict(test_B)
+# pred_C = stack_C.predict(test_C)
 
 # Clip negative values to 0
 pred_A = np.clip(pred_A, 0, None)
-pred_B = np.clip(pred_B, 0, None)
-pred_C = np.clip(pred_C, 0, None)
+# pred_B = np.clip(pred_B, 0, None)
+# pred_C = np.clip(pred_C, 0, None)
 
 # Create submission
-create_submission(pred_A, pred_B, pred_C, output_file="Analysis/Mathias/submission.csv")
+create_submission(pred_A, output_file="Analysis/Mathias/submission.csv")
 

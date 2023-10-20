@@ -36,9 +36,6 @@ dew_point_2m:K \
 diffuse_rad:W \
 direct_rad:W \
 effective_cloud_cover:p \
-elevation:m \
-is_day:idx \
-is_in_shadow:idx \
 msl_pressure:hPa \
 pressure_100m:hPa \
 pressure_50m:hPa \
@@ -59,7 +56,11 @@ direct_rad_1h:J \
 date_calc"
 
 COLUMNS_LEFT="\
-super_cooled_liquid_water:kgm2"
+super_cooled_liquid_water:kgm2 \
+is_in_shadow:idx \
+is_day:idx \
+elevation:m"
+
 
 
 # Print info to log file

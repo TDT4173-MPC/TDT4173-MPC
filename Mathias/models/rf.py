@@ -41,7 +41,7 @@ def create_submission(pred_A, pred_B, pred_C, output_file="submission.csv"):
 
 
 # Read in the data
-data_path = 'Analysis/preprocessing/data'
+data_path = './preprocessing/data'
 obs_A = pd.read_parquet(f'{data_path}/obs_A.parquet')
 est_A = pd.read_parquet(f'{data_path}/est_A.parquet')
 obs_B = pd.read_parquet(f'{data_path}/obs_B.parquet')
