@@ -14,7 +14,9 @@ DATA_PATH="preprocessing/data"
 # Define scripts to run on all files including test files
 SCRIPTS_ALL=(
 "keep_columns.py" \
-"add_time_features.py"
+"add_time_features.py" \
+"remove_constants.py"
+# "add_fourier_terms.py"
 #"add_calc_time.py"
 )
 
@@ -30,37 +32,53 @@ pv_measurement \
 date_forecast \
 diffuse_rad:W \
 diffuse_rad_1h:J \
-sfc_pressure:hPa \
 direct_rad:W \
-visibility:m \
+direct_rad_1h:J \
+effective_cloud_cover:p \
+fresh_snow_24h:cm \
 is_day:idx \
 is_in_shadow:idx \
-effective_cloud_cover:p \
 sun_elevation:d \
-direct_rad_1h:J \
-clear_sky_energy_1h:J"
-
-COLUMNS_LEFT="\
 super_cooled_liquid_water:kgm2 \
 t_1000hPa:K \
 total_cloud_cover:p \
+visibility:m \
 wind_speed_10m:ms \
 wind_speed_u_10m:ms \
-wind_speed_v_10m:ms \
+wind_speed_v_10m:ms"
+
+
+COLUMNS_LEFT="\
 elevation:m \
+date_calc \
 msl_pressure:hPa \
+precip_5min:mm \
+precip_type_5min:idx \
 pressure_100m:hPa \
 pressure_50m:hPa \
+rain_water:kgm2 \
 relative_humidity_1000hPa:p \
+sfc_pressure:hPa \
+snow_depth:cm \
+snow_melt_10min:mm \
 snow_water:kgm2 \
-time \
+sun_azimuth:d \
 absolute_humidity_2m:gm3 \
 air_density_2m:kgm3 \
+ceiling_height_agl:m \
+clear_sky_energy_1h:J \
 clear_sky_rad:W \
+cloud_base_agl:m \
 dew_point_2m:K \
-sun_azimuth:d \
-date_calc"
-
+prob_rime:p \
+dew_or_rime:idx \
+fresh_snow_3h:cm \
+snow_density:kgm3 \
+fresh_snow_6h:cm \
+fresh_snow_12h:cm \
+fresh_snow_1h:cm \
+wind_speed_w_1000hPa:ms \
+snow_drift:idx"
 
 
 # Print info to log file

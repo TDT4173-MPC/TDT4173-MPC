@@ -7,3 +7,5 @@ multicollinearity/
 correlations/
 preprocessing.log
 petterData/
+h2o_models/
+*.model
