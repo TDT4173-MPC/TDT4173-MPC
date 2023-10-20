@@ -23,6 +23,9 @@ SCRIPTS_ALL=(
 # Define scripts to run on training data files
 SCRIPTS=(
 "handle_nan.py" \
+#"remove_outliers.py" \
+"normalize.py" \
+"remove_outliers.py" \
 "normalize_pressure.py"
 )
 
