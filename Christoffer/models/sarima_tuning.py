@@ -5,7 +5,7 @@ import itertools
 
 
 #Importing data:
-data_path = './data/A'
+data_path = './data/B'
 target_A = pd.read_parquet(f'{data_path}/train_targets.parquet')
 test_A = pd.read_parquet(f'{data_path}/X_test_estimated.parquet')
 

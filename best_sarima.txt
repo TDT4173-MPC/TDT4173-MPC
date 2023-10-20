@@ -1,0 +1,3 @@
+Best AIC: 96824.82438487036
+Best order: (1, 0, 1)
+Best seasonal order: (0, 1, 1, 24)

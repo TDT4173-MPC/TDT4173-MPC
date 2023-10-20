@@ -2,25 +2,28 @@ import itertools
 import statsmodels.api as sm
 import pandas as pd
 from multiprocessing import Pool, cpu_count
-
-#Importing data:
-data_path = './data/A'
-target_A = pd.read_parquet(f'{data_path}/train_targets.parquet')
-test_A = pd.read_parquet(f'{data_path}/X_test_estimated.parquet')
-
-#TODO: Give the triaining model only one year of data
-
-
 import numpy as np
 import itertools
+from tqdm import tqdm
+
+#Importing data:
+data_path = './data/B'
+target_B = pd.read_parquet(f'{data_path}/train_targets.parquet')
+test_A = pd.read_parquet(f'{data_path}/X_test_estimated.parquet')
 
 
-# Assuming you have loaded your data into a DataFrame named df
-# For example:
-# df = pd.read_csv("your_data.csv")
-# Ensure the 'time' column is a datetime type and set it as the index
-# df['time'] = pd.to_datetime(df['time'])
-# df.set_index('time', inplace=True)
+
+#Keep only one year to tune on
+target_B = target_B[target_B['time'].dt.year == 2019]
+
+# Set the 'time' column as the index
+target_B.set_index('time', inplace=True)
+#half_year_data = target_B['2019-01-01':'2019-06-30']
+#target_B = half_year_data
+
+target_B = target_B.asfreq('H')
+
+
 
 def sarima_grid_search(params):
     p, d, q, P, D, Q, s = params
@@ -28,7 +31,7 @@ def sarima_grid_search(params):
     seasonal_order = (P, D, Q, s)
     
     try:
-        model = sm.tsa.statespace.SARIMAX(target_A['pv_measurement'],
+        model = sm.tsa.statespace.SARIMAX(target_B['pv_measurement'],
                                           order=order,
                                           seasonal_order=seasonal_order,
                                           enforce_stationarity=False,
@@ -40,7 +43,7 @@ def sarima_grid_search(params):
 
 def main():
     # Define the p, d and q parameters to take any value between 0 and 2
-    p = d = q = range(0, 5)
+    p = d = q = range(0, 2)
 
     # Generate all different combinations of p, d and q triplets
     pdq = list(itertools.product(p, d, q))
@@ -55,7 +58,9 @@ def main():
     # Use the Pool class to parallelize the computation
     pool = Pool(cpu_count())
 
-    results = pool.map(sarima_grid_search, grid_params)
+    # Wrap the iterable with tqdm to show progress
+    results = list(tqdm(pool.imap(sarima_grid_search, grid_params), total=len(grid_params)))
+    #results = target_B.fit(method='newton')
 
     pool.close()
     pool.join()
@@ -65,9 +70,20 @@ def main():
     best_order = [res[1] for res in results if res[0] == min_aic][0]
     best_seasonal_order = [res[2] for res in results if res[0] == min_aic][0]
 
+    #Write to file
+    with open('best_sarima.txt', 'w') as f:
+        f.write(f"Best AIC: {min_aic}\n")
+        f.write(f"Best order: {best_order}\n")
+        f.write(f"Best seasonal order: {best_seasonal_order}\n")
+
+    #Printing results
     print(f"Best AIC: {min_aic}")
     print(f"Best order: {best_order}")
     print(f"Best seasonal order: {best_seasonal_order}")
 
 if __name__ == '__main__':
+    print(len(target_B))
+    print(target_B.head(100))
     main()
+    #print(df_filtered.head(100))
+    #print(len(df_filtered))
