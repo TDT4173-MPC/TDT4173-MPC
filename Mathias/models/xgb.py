@@ -42,7 +42,7 @@ def create_submission(pred_A, pred_B, pred_C, output_file="submission.csv"):
 
 
 # Read in the data
-data_path = 'Analysis/preprocessing/data'
+data_path = './preprocessing/data'
 obs_A = pd.read_parquet(f'{data_path}/obs_A.parquet')
 est_A = pd.read_parquet(f'{data_path}/est_A.parquet')
 obs_B = pd.read_parquet(f'{data_path}/obs_B.parquet')
@@ -73,9 +73,9 @@ X_train_B, X_test_B, y_train_B, y_test_B = train_test_split(X_B, y_B, test_size=
 X_train_C, X_test_C, y_train_C, y_test_C = train_test_split(X_C, y_C, test_size=0.2, shuffle=False)
 
 # Define models
-xgb_A = XGBRegressor(n_estimators=300, learning_rate=0.01, max_depth=7, random_state=0)
-xgb_B = XGBRegressor(n_estimators=300, learning_rate=0.01, max_depth=7, random_state=0)
-xgb_C = XGBRegressor(n_estimators=300, learning_rate=0.01, max_depth=7, random_state=0)
+xgb_A = XGBRegressor(n_estimators=600, learning_rate=0.009, max_depth=10, random_state=0)
+xgb_B = XGBRegressor(n_estimators=600, learning_rate=0.009, max_depth=10, random_state=0)
+xgb_C = XGBRegressor(n_estimators=600, learning_rate=0.009, max_depth=10, random_state=0)
 evals_results_A = {}
 evals_results_B = {}
 evals_results_C = {}
@@ -118,6 +118,18 @@ pred_C = xgb_C.predict(test_C)
 pred_A = np.clip(pred_A, 0, None)
 pred_B = np.clip(pred_B, 0, None)
 pred_C = np.clip(pred_C, 0, None)
+
+# Get predictions for the test set (already have y_test_A for actual values)
+y_pred_A_test = xgb_A.predict(X_test_A)
+
+# Plot actual vs predicted values
+plt.figure(figsize=(10, 6))
+plt.scatter(y_test_A, y_pred_A_test, alpha=0.7)
+plt.xlabel('Actual A values')
+plt.ylabel('Predicted A values')
+plt.title('Actual vs Predicted A values')
+plt.plot([min(y_test_A), max(y_test_A)], [min(y_test_A), max(y_test_A)], color='red')  # Diagonal line
+plt.show()
 
 # Create submission
 create_submission(pred_A, pred_B, pred_C, output_file="Analysis/Mathias/submission.csv")
