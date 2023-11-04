@@ -11,56 +11,78 @@ DATA_PATH="preprocessing/data"
 #                           Preprocessing pipeline                             #
 ################################################################################
 
-# Define scripts to run on training data files
-SCRIPTS=(
-"handle_nan.py" \
-"normalize_pressure.py"
-)
-
 # Define scripts to run on all files including test files
 SCRIPTS_ALL=(
 "keep_columns.py" \
-"add_time_features.py"
+"add_time_features.py" \
+# "normalize.py" \
+# "remove_constants.py"
+# "add_cosines.py"
+# "add_fourier_terms.py"
 #"add_calc_time.py"
+)
+
+# Define scripts to run on training data files
+SCRIPTS=(
+"handle_nan.py" \
+# "remove_outliers.py"
+# "normalize_pressure.py"
 )
 
 # Remove columns that are not needed
 COLUMNS_TO_KEEP="\
 pv_measurement \
 date_forecast \
-time \
-absolute_humidity_2m:gm3 \
-air_density_2m:kgm3 \
-clear_sky_rad:W \
-dew_point_2m:K \
 diffuse_rad:W \
 direct_rad:W \
 effective_cloud_cover:p \
-msl_pressure:hPa \
-pressure_100m:hPa \
-pressure_50m:hPa \
-relative_humidity_1000hPa:p \
-sfc_pressure:hPa \
-snow_water:kgm2 \
-sun_azimuth:d \
+fresh_snow_24h:cm \
 sun_elevation:d \
+absolute_humidity_2m:gm3 \
+super_cooled_liquid_water:kgm2 \
 t_1000hPa:K \
 total_cloud_cover:p \
+air_density_2m:kgm3 \
+clear_sky_rad:W \
 visibility:m \
-wind_speed_10m:ms \
+relative_humidity_1000hPa:p \
+msl_pressure:hPa \
+snow_water:kgm2 \
+dew_point_2m:K \
 wind_speed_u_10m:ms \
-wind_speed_v_10m:ms \
-clear_sky_energy_1h:J \
-diffuse_rad_1h:J \
 direct_rad_1h:J \
-date_calc"
+diffuse_rad_1h:J \
+clear_sky_energy_1h:J \
+wind_speed_10m:ms \
+wind_speed_v_10m:ms \
+\
+elevation:m \
+date_calc \
+precip_5min:mm \
+is_day:idx \
+is_in_shadow:idx \
+precip_type_5min:idx \
+pressure_100m:hPa \
+pressure_50m:hPa \
+rain_water:kgm2 \
+sfc_pressure:hPa \
+snow_depth:cm \
+snow_melt_10min:mm \
+sun_azimuth:d \
+ceiling_height_agl:m \
+cloud_base_agl:m \
+prob_rime:p \
+dew_or_rime:idx \
+fresh_snow_3h:cm \
+snow_density:kgm3 \
+fresh_snow_6h:cm \
+fresh_snow_12h:cm \
+fresh_snow_1h:cm \
+wind_speed_w_1000hPa:ms \
+snow_drift:idx"
 
 COLUMNS_LEFT="\
-super_cooled_liquid_water:kgm2 \
-is_in_shadow:idx \
-is_day:idx \
-elevation:m"
-
+"
 
 
 # Print info to log file
