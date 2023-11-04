@@ -9,3 +9,11 @@ preprocessing.log
 petterData/
 h2o_models/
 *.model
+pred_A.csv
+pred_B.csv
+pred_C.csv
+saved_models/
+submission.csv
+submission.xlsx
+feature_engineering_analysis.csv
+features.csv

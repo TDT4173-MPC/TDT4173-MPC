@@ -5,7 +5,7 @@ Finne features med sammenhengende betydning (produkt av features)
 Rate of change (derivere features, og dobbeltderivere features)
 
 Andre matematiske operasjoner på features
- - Fourier
+ - Fourier / Wavelet
  - Kvadratisk, kubisk, logaritmisk, kvadratrot
  - Integrering
  - Normalisering

@@ -15,6 +15,7 @@ DATA_PATH="preprocessing/data"
 SCRIPTS_ALL=(
 "keep_columns.py" \
 "add_time_features.py" \
+"feature_testing.py"
 # "normalize.py" \
 # "remove_constants.py"
 # "add_cosines.py"
@@ -56,8 +57,7 @@ clear_sky_energy_1h:J \
 wind_speed_10m:ms \
 wind_speed_v_10m:ms \
 \
-elevation:m \
-date_calc \
+
 precip_5min:mm \
 is_day:idx \
 is_in_shadow:idx \
@@ -78,11 +78,13 @@ snow_density:kgm3 \
 fresh_snow_6h:cm \
 fresh_snow_12h:cm \
 fresh_snow_1h:cm \
-wind_speed_w_1000hPa:ms \
-snow_drift:idx"
+wind_speed_w_1000hPa:ms" \
+
 
 COLUMNS_LEFT="\
-"
+date_calc \
+elevation:m \
+snow_drift:idx"
 
 
 # Print info to log file
