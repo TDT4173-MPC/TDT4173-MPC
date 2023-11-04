@@ -42,22 +42,120 @@ def create_submission(pred_A, pred_B, pred_C, output_file="submission.csv"):
 
 
 # Read in the data
-data_path = './preprocessing/data'
+data_path = './Analysis/preprocessing/data'
+
+
+columns_A = [
+    "pv_measurement",
+    "direct_rad:W",
+    "diffuse_rad:W",
+    "direct_rad:W_rate_of_change",
+    "clear_sky_rad:W",
+    "date_forecast_fft_amplitude",
+    "clear_sky_rad:W_rate_of_change_of_change",
+    "clear_sky_rad:W_rate_of_change",
+    "sun_azimuth:d",
+    "direct_rad:W_rate_of_change_of_change",
+    "diffuse_rad_1h:J",
+    "t_1000hPa:K",
+    "precip_5min:mm",
+    "msl_pressure:hPa",
+    "sun_elevation:d",
+    "sun_elevation:d_fft_phase",
+    "t_1000hPa:K_rate_of_change",
+    "fresh_snow_24h:cm",
+    "diffuse_rad:W_rate_of_change",
+    "direct_rad_1h:J",
+    "absolute_humidity_2m:gm3"
+]
+columns_B = [
+    "pv_measurement",
+    "date_forecast_fft_phase",
+    "direct_rad:W",
+    "diffuse_rad:W",
+    "sun_elevation:d",
+    "clear_sky_rad:W",
+    "clear_sky_rad:W_rate_of_change",
+    "date_forecast_fft_amplitude",
+    "cloud_base_agl:m",
+    "year",
+    "t_1000hPa:K",
+    "snow_drift:idx_fft_amplitude",
+    "air_density_2m:kgm3",
+    "diffuse_rad:W_rate_of_change",
+    "clear_sky_rad:W_rate_of_change_of_change",
+    "t_1000hPa:K_rate_of_change",
+    "month",
+    "diffuse_rad_1h:J",
+    "direct_rad:W_rate_of_change",
+    "visibility:m",
+    "precip_5min:mm"
+]
+columns_C = [
+    "pv_measurement",
+    "direct_rad:W",
+    "sun_elevation:d",
+    "diffuse_rad:W",
+    "t_1000hPa:K",
+    "direct_rad_1h:J",
+    "date_forecast_fft_amplitude",
+    "clear_sky_rad:W",
+    "clear_sky_energy_1h:J",
+    "direct_rad:W_rate_of_change_of_change",
+    "snow_melt_10min:mm",
+    "direct_rad:W_rate_of_change",
+    "precip_5min:mm",
+    "relative_humidity_1000hPa:p",
+    "msl_pressure:hPa",
+    "precip_type_5min:idx_fft_amplitude",
+    "wind_speed_u_10m:ms",
+    "diffuse_rad_1h:J",
+    "sfc_pressure:hPa",
+    "dew_point_2m:K",
+    "effective_cloud_cover:p"
+]
+
+# For A
 obs_A = pd.read_parquet(f'{data_path}/obs_A.parquet')
 est_A = pd.read_parquet(f'{data_path}/est_A.parquet')
+A = pd.concat([obs_A, est_A])
+
+# For B
 obs_B = pd.read_parquet(f'{data_path}/obs_B.parquet')
 est_B = pd.read_parquet(f'{data_path}/est_B.parquet')
+B = pd.concat([obs_B, est_B])
+
+
+# For C
 obs_C = pd.read_parquet(f'{data_path}/obs_C.parquet')
 est_C = pd.read_parquet(f'{data_path}/est_C.parquet')
-
-test_A = pd.read_parquet(f'{data_path}/test_A.parquet').dropna()
-test_B = pd.read_parquet(f'{data_path}/test_B.parquet').dropna()
-test_C = pd.read_parquet(f'{data_path}/test_C.parquet').dropna()
-
-# Concatenate
-A = pd.concat([obs_A, est_A])
-B = pd.concat([obs_B, est_B])
 C = pd.concat([obs_C, est_C])
+
+
+# For testing, read in test data and select only the specified columns, then drop missing values
+test_A = pd.read_parquet(f'{data_path}/test_A.parquet')
+test_B = pd.read_parquet(f'{data_path}/test_B.parquet')
+test_C = pd.read_parquet(f'{data_path}/test_C.parquet')
+
+A = A.loc[:, columns_A]
+
+# Select only the columns specified in columns_B for dataset B
+B = B.loc[:, columns_B]
+
+# Select only the columns specified in columns_C for dataset C
+C = C.loc[:, columns_C]
+
+# Also, apply the same column filtering for your test sets:
+features_A = [col for col in columns_A if col != "pv_measurement"]
+features_B = [col for col in columns_B if col != "pv_measurement"]
+features_C = [col for col in columns_C if col != "pv_measurement"]
+
+# Now use these feature lists to select columns from the test data
+test_A = test_A[features_A]
+test_B = test_B[features_B]
+test_C = test_C[features_C]
+
+print(test_A.shape)
 
 # Split to features and labels
 X_A = A.drop(columns=['pv_measurement'])
@@ -132,5 +230,5 @@ plt.plot([min(y_test_A), max(y_test_A)], [min(y_test_A), max(y_test_A)], color='
 plt.show()
 
 # Create submission
-create_submission(pred_A, pred_B, pred_C, output_file="Analysis/Mathias/submission.csv")
+create_submission(pred_A, pred_B, pred_C, output_file="./analysis/submission.csv")
 

@@ -19,9 +19,9 @@ def add_date_features(df):
         df['time_of_day'] = df['date_forecast'].dt.hour * 60 + df['date_forecast'].dt.minute
     else:
         print("Warning: 'date_forecast' column not found in the dataframe. No date features added.")
-        return df
+        return df  # Keep the 'date_forecast' column in the dataframe
     
-    return df.drop(columns=['date_forecast'])
+    return df  # Return the dataframe with the new columns added without dropping 'date_forecast'
 
 def main(input_file):
     # Read the data
