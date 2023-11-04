@@ -24,6 +24,7 @@ def main(input_file):
         'effective_cloud_cover:p', 'total_cloud_cover:p', 'total_radiation'
     ]
 
+
     # Read the data
     df = pd.read_parquet(input_file)
 

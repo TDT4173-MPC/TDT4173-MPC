@@ -36,9 +36,12 @@ SCRIPTS=(
 # Remove columns that are not needed
 COLUMNS_TO_KEEP="\
 pv_measurement \
-date_forecast \
+clear_sky_rad:W \
+clear_sky_energy_1h:J \
 diffuse_rad:W \
+diffuse_rad_1h:J \
 direct_rad:W \
+direct_rad_1h:J \
 effective_cloud_cover:p \
 fresh_snow_24h:cm \
 fresh_snow_24h:cm \
