@@ -39,6 +39,6 @@ B = pd.concat([obs_B, est_B])
 C = pd.concat([obs_C, est_C])
 
 try:
-    plot_columns(B, 'sun_elevation:d', 'pv_measurement')
+    plot_columns(A, 'month_cos', 'pv_measurement')
 except Exception as e:
     print(e)

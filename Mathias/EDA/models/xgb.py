@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import mean_absolute_error
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_score
+from sklearn.metrics import mean_squared_error
 
 # Models
 from xgboost import XGBRegressor
@@ -76,9 +77,9 @@ X_train_B, X_test_B, y_train_B, y_test_B = train_test_split(X_B, y_B, test_size=
 X_train_C, X_test_C, y_train_C, y_test_C = train_test_split(X_C, y_C, test_size=0.2, shuffle=False)
 
 # Define models
-# xgb_A = XGBRegressor(n_estimators=1000, learning_rate=0.002, max_depth=20, random_state=3)
-# xgb_B = XGBRegressor(n_estimators=1000, learning_rate=0.002, max_depth=20, random_state=3)
-# xgb_C = XGBRegressor(n_estimators=1000, learning_rate=0.002, max_depth=20, random_state=3)
+xgb_A = XGBRegressor(n_estimators=100, learning_rate=0.01, max_depth=15, random_state=2)
+xgb_B = XGBRegressor(n_estimators=100, learning_rate=0.01, max_depth=15, random_state=2)
+xgb_C = XGBRegressor(n_estimators=100, learning_rate=0.01, max_depth=15, random_state=2)
 evals_results_A = {}
 evals_results_B = {}
 evals_results_C = {}
@@ -93,14 +94,16 @@ evals_results_C = {}
 # print('C done')
 
 # # Fit the models
-# xgb_A.fit(X_train_A, y_train_A, eval_set=[(X_train_A, y_train_A), (X_test_A, y_test_A)], eval_metric="mae", verbose=False)
-# xgb_B.fit(X_train_B, y_train_B, eval_set=[(X_train_B, y_train_B), (X_test_B, y_test_B)], eval_metric="mae", verbose=False)
-# xgb_C.fit(X_train_C, y_train_C, eval_set=[(X_train_C, y_train_C), (X_test_C, y_test_C)], eval_metric="mae", verbose=False)
-
-# # Save models
-# xgb_A.save_model('./Mathias/EDA/saved_models/xgb_A.model')
-# xgb_B.save_model('./Mathias/EDA/saved_models/xgb_B.model')
-# xgb_C.save_model('./Mathias/EDA/saved_models/xgb_C.model')
+print('Training models...')
+xgb_A.fit(X_train_A, y_train_A, eval_set=[(X_train_A, y_train_A), (X_test_A, y_test_A)], eval_metric="mae", verbose=False)
+xgb_A.save_model('./Mathias/EDA/saved_models/xgb_A.model')
+print('A done')
+xgb_B.fit(X_train_B, y_train_B, eval_set=[(X_train_B, y_train_B), (X_test_B, y_test_B)], eval_metric="mae", verbose=False)
+xgb_B.save_model('./Mathias/EDA/saved_models/xgb_B.model')
+print('B done')
+xgb_C.fit(X_train_C, y_train_C, eval_set=[(X_train_C, y_train_C), (X_test_C, y_test_C)], eval_metric="mae", verbose=False)
+xgb_C.save_model('./Mathias/EDA/saved_models/xgb_C.model')
+print('C done')
 
 # Predict
 # pred_A = xgb_A.predict(test_A)
@@ -196,11 +199,39 @@ feature_importances_C = pd.DataFrame(xgb_C.feature_importances_,
                                       columns=['importance']).sort_values('importance', ascending=False)
 print(feature_importances_C)
 
-# Clip negative values to 0
-# pred_A = np.clip(pred_A, 0, None)
-# pred_B = np.clip(pred_B, 0, None)
-# pred_C = np.clip(pred_C, 0, None)
+# Calculate residuals
+residuals = y_test_A - y_pred_A
 
-# Create submission
-# create_submission(pred_A, pred_B, pred_C, output_file="./Mathias/submission.csv")
+# Plotting residuals
+plt.figure(figsize=(10, 6))
+
+plt.subplot(1, 2, 1)
+plt.scatter(y_test_A, residuals, alpha=0.5)
+plt.title('Residuals vs. Actual Values')
+plt.xlabel('Actual Values')
+plt.ylabel('Residuals')
+
+plt.subplot(1, 2, 2)
+plt.hist(residuals, bins=20, edgecolor='k', alpha=0.7)
+plt.title('Histogram of Residuals')
+plt.xlabel('Residual Value')
+plt.ylabel('Count')
+
+plt.tight_layout()
+plt.show()
+
+# Residual Statistics
+print("Mean of Residuals: ", np.mean(residuals))
+print("Standard Deviation of Residuals: ", np.std(residuals))
+print("Root Mean Squared Error (RMSE): ", np.sqrt(mean_squared_error(y_test_A, y_pred_A)))
+
+# Autocorrelation (Optional: requires statsmodels)
+# It checks if residuals are correlated with their own lagged versions
+try:
+    from statsmodels.graphics.tsaplots import plot_acf
+    plot_acf(residuals)
+    plt.title('Autocorrelation of Residuals')
+    plt.show()
+except ImportError:
+    print("statsmodels is not installed. Can't show autocorrelation plot.")
 

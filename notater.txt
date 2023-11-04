@@ -1,0 +1,23 @@
+------- TING VI MÅ PRØVD -------
+
+Finne features med sammenhengende betydning (produkt av features)
+
+Rate of change (derivere features, og dobbeltderivere features)
+
+Andre matematiske operasjoner på features
+ - Fourier
+ - Kvadratisk, kubisk, logaritmisk, kvadratrot
+ - Integrering
+ - Normalisering
+
+Data cleaning. Fjerne outliers.
+
+Lage en måte å verifisere features raskt. 
+
+Inspisere viktige features grundigere, f.eks se hvordan
+direct_rad og diffuse_rad blir påvirket av skydekket. 
+
+Regne på vinkelen til sola.
+
+
+------- TING VI HAR PRØVD -------

@@ -1,9 +1,10 @@
 # Data libraries
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 
 # Metrics
-from sklearn.metrics import mean_absolute_error
+from sklearn.metrics import make_scorer, mean_absolute_error
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_score
 
@@ -76,16 +77,16 @@ class SARIMAXEstimator(BaseEstimator, RegressorMixin):
 
 # Read in the data
 data_path = './preprocessing/data'
-obs_A = pd.read_parquet(f'{data_path}/obs_A.parquet')
-est_A = pd.read_parquet(f'{data_path}/est_A.parquet')
-obs_B = pd.read_parquet(f'{data_path}/obs_B.parquet')
-est_B = pd.read_parquet(f'{data_path}/est_B.parquet')
-obs_C = pd.read_parquet(f'{data_path}/obs_C.parquet')
-est_C = pd.read_parquet(f'{data_path}/est_C.parquet')
+obs_A = pd.read_parquet(f'{data_path}/obs_A.parquet').drop(columns='date_forecast')
+est_A = pd.read_parquet(f'{data_path}/est_A.parquet').drop(columns='date_forecast')
+obs_B = pd.read_parquet(f'{data_path}/obs_B.parquet').drop(columns='date_forecast')
+est_B = pd.read_parquet(f'{data_path}/est_B.parquet').drop(columns='date_forecast')
+obs_C = pd.read_parquet(f'{data_path}/obs_C.parquet').drop(columns='date_forecast')
+est_C = pd.read_parquet(f'{data_path}/est_C.parquet').drop(columns='date_forecast')
 
-test_A = pd.read_parquet(f'{data_path}/test_A.parquet').dropna()
-test_B = pd.read_parquet(f'{data_path}/test_B.parquet').dropna()
-test_C = pd.read_parquet(f'{data_path}/test_C.parquet').dropna()
+test_A = pd.read_parquet(f'{data_path}/test_A.parquet').dropna().drop(columns='date_forecast')
+test_B = pd.read_parquet(f'{data_path}/test_B.parquet').dropna().drop(columns='date_forecast')
+test_C = pd.read_parquet(f'{data_path}/test_C.parquet').dropna().drop(columns='date_forecast')
 
 # Concatenate
 A = pd.concat([obs_A, est_A])
@@ -107,37 +108,97 @@ X_train_C, X_test_C, y_train_C, y_test_C = train_test_split(X_C, y_C, test_size=
 
 # Train models
 # Define base models
-base_models = [
-    ('lr', LinearRegression()),
-    ('rf', RandomForestRegressor(criterion='absolute_error')),
-    ('ada', AdaBoostRegressor()),
-    ('xgb', XGBRegressor())
-]
+lr = LinearRegression(n_jobs=-1)
+rf = RandomForestRegressor(n_jobs=-1, n_estimators=120, random_state=1)
+xgb = XGBRegressor(n_estimators=250, learning_rate=0.01, max_depth=15, random_state=1)
+dt = DecisionTreeRegressor(random_state=1, max_depth=15)
+ada = AdaBoostRegressor(random_state=1, n_estimators=100)
 
 # Initialize StackingRegressor with the base models and a meta-model
-stack_A = StackingRegressor(estimators=base_models, final_estimator=LinearRegression())
-stack_B = StackingRegressor(estimators=base_models, final_estimator=LinearRegression())
-stack_C = StackingRegressor(estimators=base_models, final_estimator=LinearRegression())
+stack_A = StackingCVRegressor(regressors=(lr, rf, xgb, dt, ada), meta_regressor=LinearRegression(), cv=5, verbose=1)
+stack_B = StackingCVRegressor(regressors=(lr, rf, xgb), meta_regressor=LinearRegression(), cv=5)
+stack_C = StackingCVRegressor(regressors=(lr, rf, xgb), meta_regressor=LinearRegression(), cv=5)
 
 # Train the models
-print('Training models...')
-stack_A.fit(X_A, y_A)
-print('A done')
-stack_B.fit(X_B, y_B)
-print('B done')
-stack_C.fit(X_C, y_C)
-print('C done')
+# print('Training models...')
+# stack_A.fit(X_A.values, y_A.values)
+# pickle.dump(stack_A, open('./Mathias/EDA/saved_models/stack_A.pickle', 'wb'))
+# print('A done')
+# stack_B.fit(X_train_B.values, y_train_B.values)
+# pickle.dump(stack_B, open('./Mathias/EDA/saved_models/stack_B.pickle', 'wb'))
+# print('B done')
+# stack_C.fit(X_train_C.values, y_train_C.values)
+# pickle.dump(stack_C, open('./Mathias/EDA/saved_models/stack_C.pickle', 'wb'))
+# print('C done')
+
+# Load models
+stack_A = pickle.load(open('./Mathias/EDA/saved_models/stack_A.pickle', 'rb'))
+# stack_B = pickle.load(open('./Mathias/EDA/saved_models/stack_B.pickle', 'rb'))
+# stack_C = pickle.load(open('./Mathias/EDA/saved_models/stack_C.pickle', 'rb'))
 
 # Predict
-pred_A = stack_A.predict(test_A)
-pred_B = stack_B.predict(test_B)
-pred_C = stack_C.predict(test_C)
+pred_A = stack_A.predict(X_test_A)
+# pred_B = stack_B.predict(X_test_B)
+# pred_C = stack_C.predict(X_test_C)
 
 # Clip negative values to 0
 pred_A = np.clip(pred_A, 0, None)
-pred_B = np.clip(pred_B, 0, None)
-pred_C = np.clip(pred_C, 0, None)
+# pred_B = np.clip(pred_B, 0, None)
+# pred_C = np.clip(pred_C, 0, None)
+
+# Plotting predicted value vs true value
+# plt.figure(figsize=(10,6))
+# plt.plot(pred_A, label='pred')
+# plt.plot(y_test_A.values, label='actual')
+# plt.legend()
+# plt.show()
+
+# plt.figure(figsize=(10,6))
+# plt.plot(pred_B, label='pred')
+# plt.plot(y_test_B.values, label='actual')
+# plt.legend()
+# plt.show()
+
+# plt.figure(figsize=(10,6))
+# plt.plot(pred_C, label='pred')
+# plt.plot(y_test_C.values, label='actual')
+# plt.legend()
+# plt.show()
+
+# Evaluate
+print('Evaluating...')
+print('MAE A:', mean_absolute_error(y_test_A, pred_A))
+mae_scorer = make_scorer(mean_absolute_error, greater_is_better=False)
+cv_scores_A = -cross_val_score(stack_A, X_train_A.values, y_train_A.values, cv=5, scoring=mae_scorer, verbose=1, n_jobs=-1)
+mean_cv_mae_A = np.mean(cv_scores_A)
+print('Average MAE with CV - A:', mean_cv_mae_A)
+# print('B:', mean_absolute_error(y_test_B, pred_B))
+# print('C:', mean_absolute_error(y_test_C, pred_C))
+
+# Write pred_A to file
+pred_A = stack_A.predict(test_A.values)
+pred_A = np.clip(pred_A, 0, None)
+pred_A = pd.DataFrame(pred_A)
+pred_A.to_csv('./Mathias/EDA/pred_A.csv', index=False)
+
+# pred_B = stack_B.predict(test_B.values)
+# pred_B = np.clip(pred_B, 0, None)
+# pred_B = pd.DataFrame(pred_B)
+# pred_B.to_csv('./Mathias/EDA/pred_B.csv', index=False)
+
+# pred_C = stack_C.predict(test_C.values)
+# pred_C = np.clip(pred_C, 0, None)
+# pred_C = pd.DataFrame(pred_C)
+# pred_C.to_csv('./Mathias/EDA/pred_C.csv', index=False)
+
+# Load predictions
+pred_A = pd.read_csv('./Mathias/EDA/pred_A.csv')
+pred_A = pred_A['0']
+pred_B = pd.read_csv('./Mathias/EDA/pred_B.csv')
+pred_B = pred_B['0']
+pred_C = pd.read_csv('./Mathias/EDA/pred_C.csv')
+pred_C = pred_C['0']
 
 # Create submission
-create_submission(pred_A, pred_B, pred_C, output_file="./Mathias/submission.csv")
+create_submission(pred_A, pred_B, pred_C, output_file="submission.csv")
 

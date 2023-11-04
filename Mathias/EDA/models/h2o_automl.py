@@ -29,7 +29,7 @@ def process_dataset(file_path, save_dir, max_runtime_secs):
     print(lb.head(rows=lb.nrows))  # Print all rows instead of default (10 rows)
 
     # Number of models you want to save
-    num_models_to_save = 10
+    num_models_to_save = 3
 
     # Extract the model ids of the top models
     top_models = []
@@ -76,3 +76,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+

@@ -2,16 +2,16 @@ import pandas as pd
 import numpy as np
 import sys
 
-def add_fourier_terms(df, column, period, num_terms):
+def add_cosines(df, column, period, num_terms):
     """
-    Adds Fourier terms for a specific column to capture seasonality.
+    Adds cosine terms for a specific column to capture seasonality.
     """
-    # Add Fourier terms
     for i in range(1, num_terms + 1):
-        df[f'{column}_sin_{i}'] = np.sin(2 * i * np.pi * df[column] / period)
-        df[f'{column}_cos_{i}'] = np.cos(2 * i * np.pi * df[column] / period)
+        cosine_name = f"{column}_cosine_{i}"
+        df[cosine_name] = np.cos((2 * np.pi * i * df[column]) / period)
     
     return df
+
 
 def main(input_file):
     # Read the data
@@ -24,9 +24,9 @@ def main(input_file):
     hour_period = 24
 
     # Add Fourier terms for seasonal patterns captured by month, day, and hour
-    df = add_fourier_terms(df, 'month', month_period, num_terms=2)
-    df = add_fourier_terms(df, 'day', day_period, num_terms=2)
-    df = add_fourier_terms(df, 'hour', hour_period, num_terms=2)
+    df = add_cosines(df, 'month', month_period, num_terms=2)
+    df = add_cosines(df, 'day', day_period, num_terms=2)
+    df = add_cosines(df, 'hour', hour_period, num_terms=2)
 
     # Save the modified data back to the same file
     df.to_parquet(input_file, index=False)

@@ -30,7 +30,20 @@ if __name__ == "__main__":
     file_path = sys.argv[1]
 
     # You can specify the columns you want to normalize here or pass through the command line
-    columns_to_normalize = ['direct_rad:W']  # Example column names to be normalized
+    columns_to_normalize = []
+    # columns_to_normalize = ['direct_rad:W', 
+    #                         'date_forecast',
+    #                         'diffuse_rad:W',
+    #                         'direct_rad:W',
+    #                         'effective_cloud_cover:p',
+    #                         'fresh_snow_24h:cm',
+    #                         'sun_elevation:d',
+    #                         'super_cooled_liquid_water:kgm2',
+    #                         't_1000hPa:K',
+    #                         'total_cloud_cover:p',
+    #                         'visibility:m',
+    #                         'wind_speed_u_10m:ms', 
+    #                         'wind_speed_v_10m:ms', ] 
 
     if len(sys.argv) > 3:
         columns_to_normalize = sys.argv[3:]

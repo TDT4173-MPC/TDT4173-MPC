@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import sys
 
 def add_date_features(df):
@@ -15,7 +16,8 @@ def add_date_features(df):
         df['month'] = df['date_forecast'].dt.month
         df['year'] = df['date_forecast'].dt.year
         df['hour'] = df['date_forecast'].dt.hour
-        df['day'] = df['date_forecast'].dt.day
+        # df['day'] = df['date_forecast'].dt.day
+
     else:
         print("Warning: 'date_forecast' column not found in the dataframe. No date features added.")
         return df

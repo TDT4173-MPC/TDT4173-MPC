@@ -102,6 +102,11 @@ pred_A = model_A.predict(X_val_A)
 pred_B = model_B.predict(X_val_B)
 pred_C = model_C.predict(X_val_C)
 
+# Cap negative prediction to zero
+pred_A = np.clip(pred_A, 0, None)
+pred_B = np.clip(pred_B, 0, None)
+pred_C = np.clip(pred_C, 0, None)
+
 # Evaluate the model
 mae_A = mean_absolute_error(y_val_A, pred_A)
 mae_B = mean_absolute_error(y_val_B, pred_B)
@@ -114,17 +119,27 @@ print(f"MAE C: {mae_C}")
 # Assuming that your features are the same across A, B, and C, we can use the column names from X_train_A
 feature_names = X_train_A.columns.tolist()
 
-print("=== Model A ===")
-print_coefficients(model_A, feature_names, "A")
+# print("=== Model A ===")
+# print_coefficients(model_A, feature_names, "A")
 
-print("\n=== Model B ===")
-print_coefficients(model_B, feature_names, "B")
+# print("\n=== Model B ===")
+# print_coefficients(model_B, feature_names, "B")
 
-print("\n=== Model C ===")
-print_coefficients(model_C, feature_names, "C")
+# print("\n=== Model C ===")
+# print_coefficients(model_C, feature_names, "C")
 
 # Plot the predictions
-plt.plot(pred_A, label='pred')
-plt.plot(y_val_A.values, label='actual')
-plt.legend()
-plt.show()
+# plt.plot(pred_A, label='pred')
+# plt.plot(y_val_A.values, label='actual')
+# plt.legend()
+# plt.show()
+
+# Score with 'is_in_shadow:idx'
+# MAE A: 274.07583403745235
+# MAE B: 33.87757171808925
+# MAE C: 29.35363008180999
+
+# Score without 'is_in_shadow:idx'
+# MAE A: 274.07583403745235
+# MAE B: 33.87757171808925
+# MAE C: 29.35363008180999
