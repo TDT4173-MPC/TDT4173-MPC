@@ -15,7 +15,10 @@ DATA_PATH="preprocessing/data"
 SCRIPTS_ALL=(
 "keep_columns.py" \
 "add_time_features.py" \
-"feature_testing.py"
+"feature_testing.py" \
+"add_fourier_features.py" \
+"add_rate_of_change.py" \
+"add_obs_est_feature.py" \
 # "normalize.py" \
 # "remove_constants.py"
 # "add_cosines.py"
@@ -38,11 +41,16 @@ diffuse_rad:W \
 direct_rad:W \
 effective_cloud_cover:p \
 fresh_snow_24h:cm \
+fresh_snow_24h:cm \
 sun_elevation:d \
+absolute_humidity_2m:gm3 \
+super_cooled_liquid_water:kgm2 \
 absolute_humidity_2m:gm3 \
 super_cooled_liquid_water:kgm2 \
 t_1000hPa:K \
 total_cloud_cover:p \
+air_density_2m:kgm3 \
+clear_sky_rad:W \
 air_density_2m:kgm3 \
 clear_sky_rad:W \
 visibility:m \
@@ -50,14 +58,20 @@ relative_humidity_1000hPa:p \
 msl_pressure:hPa \
 snow_water:kgm2 \
 dew_point_2m:K \
+relative_humidity_1000hPa:p \
+msl_pressure:hPa \
+snow_water:kgm2 \
+dew_point_2m:K \
 wind_speed_u_10m:ms \
+direct_rad_1h:J \
+diffuse_rad_1h:J \
 direct_rad_1h:J \
 diffuse_rad_1h:J \
 clear_sky_energy_1h:J \
 wind_speed_10m:ms \
 wind_speed_v_10m:ms \
 \
-
+date_calc \
 precip_5min:mm \
 is_day:idx \
 is_in_shadow:idx \
@@ -69,12 +83,9 @@ sfc_pressure:hPa \
 snow_depth:cm \
 snow_melt_10min:mm \
 sun_azimuth:d \
-ceiling_height_agl:m \
-cloud_base_agl:m \
 prob_rime:p \
 dew_or_rime:idx \
 fresh_snow_3h:cm \
-snow_density:kgm3 \
 fresh_snow_6h:cm \
 fresh_snow_12h:cm \
 fresh_snow_1h:cm \
@@ -82,8 +93,10 @@ wind_speed_w_1000hPa:ms" \
 
 
 COLUMNS_LEFT="\
-date_calc \
 elevation:m \
+ceiling_height_agl:m \
+cloud_base_agl:m \
+snow_density:kgm3 \
 snow_drift:idx"
 
 

@@ -20,7 +20,7 @@ def add_date_features(df):
 
     else:
         print("Warning: 'date_forecast' column not found in the dataframe. No date features added.")
-        return df
+        return df  # Keep the 'date_forecast' column in the dataframe
     
     return df
 

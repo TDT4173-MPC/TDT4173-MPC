@@ -1,8 +1,6 @@
 import pandas as pd
 
 
-
-
 def main():
 
     # Read in the data
