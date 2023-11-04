@@ -21,8 +21,8 @@ SCRIPTS=(
 SCRIPTS_ALL=(
 "keep_columns.py" \
 "add_time_features.py"
-"add_fourier_features.py" 
-"add_wavelet_transform_features.py"
+# "add_fourier_features.py" 
+# "add_wavelet_transform_features.py"
 "add_rate_of_change.py" \
 # "feature_selection.py" \
 #"add_calc_time.py"
@@ -32,52 +32,23 @@ SCRIPTS_ALL=(
 # Remove columns that are not needed
 COLUMNS_TO_KEEP="\
 pv_measurement \
-date_forecast \
+clear_sky_rad:W \
+clear_sky_energy_1h:J \
 diffuse_rad:W \
+diffuse_rad_1h:J \
 direct_rad:W \
+direct_rad_1h:J \
 effective_cloud_cover:p \
 fresh_snow_24h:cm \
-sun_elevation:d \
-absolute_humidity_2m:gm3 \
-super_cooled_liquid_water:kgm2 \
-t_1000hPa:K \
-total_cloud_cover:p \
-air_density_2m:kgm3 \
-clear_sky_rad:W \
-visibility:m \
-relative_humidity_1000hPa:p \
-msl_pressure:hPa \
-snow_water:kgm2 \
-dew_point_2m:K \
-wind_speed_u_10m:ms \
-direct_rad_1h:J \
-diffuse_rad_1h:J \
-clear_sky_energy_1h:J \
-wind_speed_10m:ms \
-wind_speed_v_10m:ms \
-\
-elevation:m \
-precip_5min:mm \
 is_day:idx \
 is_in_shadow:idx \
-precip_type_5min:idx \
-pressure_100m:hPa \
-pressure_50m:hPa \
-rain_water:kgm2 \
-sfc_pressure:hPa \
-snow_depth:cm \
-snow_melt_10min:mm \
-sun_azimuth:d \
-ceiling_height_agl:m \
-cloud_base_agl:m \
-prob_rime:p \
-dew_or_rime:idx \
-fresh_snow_3h:cm \
-snow_density:kgm3 \
-fresh_snow_6h:cm \
-fresh_snow_12h:cm \
-fresh_snow_1h:cm \
-wind_speed_w_1000hPa:ms \
+sun_elevation:d \
+t_1000hPa:K \
+total_cloud_cover:p \
+visibility:m \
+wind_speed_10m:ms \
+wind_speed_u_10m:ms \
+wind_speed_v_10m:ms \
 snow_drift:idx"
 
 COLUMNS_LEFT="\
