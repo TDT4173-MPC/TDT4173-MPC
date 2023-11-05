@@ -22,7 +22,6 @@ def main(input_file):
         't_1000hPa:K': 4,
         'dew_or_rime:idx': 11,
         'relative_humidity_1000hPa:p': -3,
-        'wind_vector_magnitude': 8,
         'sun_azimuth:d': 7,
         'temp_dewpoint_diff': -4,
         'dew_point_2m:K': 19, # Weak

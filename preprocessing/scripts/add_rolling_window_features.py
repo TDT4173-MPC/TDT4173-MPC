@@ -18,10 +18,8 @@ def main(input_file):
         't_1000hPa:K': 24,  
         'msl_pressure:hPa': 24,
         'absolute_humidity_2m:gm3': 24,
-        'effective_cloud_cover:p': 6,
         'total_cloud_cover:p': 6,
         'sun_elevation:d': 6,
-        'clear_sky_rad:W': 6,
         'total_radiation': 24,
         'total_radiation': 3
     }

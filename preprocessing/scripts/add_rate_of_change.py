@@ -29,7 +29,7 @@ def main(input_file):
     df = pd.read_parquet(input_file)
 
     # Add rate of change features
-    df_with_roc = add_rate_of_change_features(df, features_to_diff, second_order=True)
+    df_with_roc = add_rate_of_change_features(df, features_to_diff, second_order=False)
 
     # Save the modified data back to the same path
     df_with_roc.to_parquet(input_file, index=False)

@@ -13,9 +13,8 @@ DATA_PATH="preprocessing/data"
 
 # Define scripts to run on all files including test files
 SCRIPTS_ALL=(
-"handle_nan.py" \
+# "handle_nan.py" \
 "feature_testing.py" \
-"keep_columns.py" \
 "add_time_features.py" \
 "add_fourier_features.py" \
 "add_rate_of_change.py" \
@@ -23,6 +22,9 @@ SCRIPTS_ALL=(
 "remove_constants.py" \
 "add_lagged_features_dict.py" \
 "add_rolling_window_features.py" \
+"keep_columns.py" \
+"impute_nans.py" \
+"power_transform.py" \
 # "normalize.py" \
 # "add_cosines.py"
 # "add_fourier_terms.py"
@@ -36,50 +38,81 @@ SCRIPTS=(
 )
 
 # Remove columns that are not needed
-COLUMNS_TO_KEEP="\
+COLUMNS_TO_KEEP="
 pv_measurement \
-date_forecast \
-clear_sky_rad:W \
-clear_sky_energy_1h:J \
+snow_accumulation \
+total_radiation \
+sfc_pressure:hPa \
+month \
+year \
+date_forecast_fft_amplitude \
+date_forecast_fft_phase \
+sun_elevation:d_fft_amplitude \
+sun_elevation:d_fft_phase \
+t_1000hPa:K_rate_of_change \
+clear_sky_rad:W_rate_of_change \
+direct_rad:W_rate_of_change \
+effective_cloud_cover:p_rate_of_change \
+total_cloud_cover:p_rate_of_change \
+observed \
+sun_azimuth:d_lag_7 \
+msl_pressure:hPa_lag_3 \
+sfc_pressure:hPa_lag_8 \
+t_1000hPa:K_lag_4 \
+dew_or_rime:idx_lag_11 \
+relative_humidity_1000hPa:p_lag_-3 \
+temp_dewpoint_diff_lag_-4 \
+dew_point_2m:K_lag_19 \
+visibility:m_lag_-2 \
+t_1000hPa:K_rolling_avg_24 \
+msl_pressure:hPa_rolling_avg_24 \
+absolute_humidity_2m:gm3_rolling_avg_24 \
+total_cloud_cover:p_rolling_avg_6 \
+sun_elevation:d_rolling_avg_6 \
+total_radiation_rolling_avg_3 \
+
 diffuse_rad:W \
 diffuse_rad_1h:J \
 direct_rad:W \
 direct_rad_1h:J \
-effective_cloud_cover:p \
+clear_sky_rad:W \
 sun_elevation:d \
-absolute_humidity_2m:gm3 \
-super_cooled_liquid_water:kgm2 \
-t_1000hPa:K \
-total_cloud_cover:p \
-air_density_2m:kgm3 \
-visibility:m \
-msl_pressure:hPa \
-dew_point_2m:K \
-relative_humidity_1000hPa:p \
-snow_water:kgm2 \
+effective_cloud_cover:p \
+clear_sky_energy_1h:J"
 
-snow_accumulation \
-wind_vector_magnitude \
-average_wind_speed \
-pressure_gradient \
-temp_dewpoint_diff \
-total_radiation \
+# pv_measurement \
+# date_forecast \
+# absolute_humidity_2m:gm3 \
+# super_cooled_liquid_water:kgm2 \
+# t_1000hPa:K \
+# total_cloud_cover:p \
+# air_density_2m:kgm3 \
+# visibility:m \
+# msl_pressure:hPa \
+# dew_point_2m:K \
+# relative_humidity_1000hPa:p \
+# snow_water:kgm2 \
+# snow_accumulation \
+# wind_vector_magnitude \
+# average_wind_speed \
+# pressure_gradient \
+# temp_dewpoint_diff \
 
-\
-date_calc \
-precip_5min:mm \
-is_day:idx \
-is_in_shadow:idx \
-precip_type_5min:idx \
-pressure_100m:hPa \
-pressure_50m:hPa \
-rain_water:kgm2 \
-sfc_pressure:hPa \
-snow_depth:cm \
-snow_melt_10min:mm \
-sun_azimuth:d \
-prob_rime:p \
-dew_or_rime:idx" \
+# \
+# date_calc \
+# precip_5min:mm \
+# is_day:idx \
+# is_in_shadow:idx \
+# precip_type_5min:idx \
+# pressure_100m:hPa \
+# pressure_50m:hPa \
+# rain_water:kgm2 \
+# sfc_pressure:hPa \
+# snow_depth:cm \
+# snow_melt_10min:mm \
+# sun_azimuth:d \
+# prob_rime:p \
+# dew_or_rime:idx" \
 
 
 COLUMNS_LEFT="\
