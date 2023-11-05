@@ -15,6 +15,12 @@ direct_rad og diffuse_rad blir påvirket av skydekket.
 
 Regne på vinkelen til sola.
 
+Legge til lagged features.
+
+Se på ulike måter å "ta gjennomsnittet av en time" på.
+
+Bagging
+
 
 ------- TING VI HAR PRØVD -------
 
@@ -27,3 +33,7 @@ Andre matematiske operasjoner på features
  Rate of change (derivere features, og dobbeltderivere features)
 
  Finne features med sammenhengende betydning (produkt av features)
+
+
+
+
