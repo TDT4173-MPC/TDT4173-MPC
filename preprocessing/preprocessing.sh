@@ -11,21 +11,24 @@ DATA_PATH="preprocessing/data"
 #                           Preprocessing pipeline                             #
 ################################################################################
 
-# Define scripts to run on training data files
-SCRIPTS=(
-"handle_nan.py" \
-# "winsorize_data.py" \
-"normalize_pressure.py"
-"add_lagged_pv_measuremen.py" \
-)
-
 # Define scripts to run on all files including test files
 SCRIPTS_ALL=(
+"handle_nan.py" \
+"feature_testing.py" \
 "keep_columns.py" \
+"add_time_features.py" \
+"add_fourier_features.py" \
 "add_time_features.py" \
 # "add_fourier_features.py" 
 # "add_wavelet_transform_features.py"
 "add_rate_of_change.py" \
+"add_obs_est_feature.py"
+"remove_constants.py" \
+"add_lagged_features_dict.py" \
+"add_rolling_window_features.py" \
+# "normalize.py" \
+# "add_cosines.py"
+# "add_fourier_terms.py"
 "add_lagged_features_dict.py" \
 "feature_testing.py" \
 "add_rolling_window_features.py" \
@@ -34,11 +37,18 @@ SCRIPTS_ALL=(
 #"add_calc_time.py"
 )
 
-# Remove columns that are not needed
-# Remove columns that are not needed
+# Define scripts to run on training data files
+SCRIPTS=(
+# "remove_outliers.py"
+# "normalize_pressure.py"
+)
 
+ø# Remove columns that are not needed
 COLUMNS_TO_KEEP="\
 pv_measurement \
+date_forecast \
+clear_sky_rad:W \
+clear_sky_energy_1h:J \
 date_forecast \
 diffuse_rad:W \
 direct_rad:W \
@@ -47,11 +57,45 @@ fresh_snow_24h:cm \
 sun_elevation:d \
 absolute_humidity_2m:gm3 \
 super_cooled_liquid_water:kgm2 \
+absolute_humidity_2m:gm3 \
+super_cooled_liquid_water:kgm2 \
 t_1000hPa:K \
 total_cloud_cover:p \
 air_density_2m:kgm3 \
+air_density_2m:kgm3 \
 clear_sky_rad:W \
 visibility:m \
+msl_pressure:hPa \
+dew_point_2m:K \
+relative_humidity_1000hPa:p \
+snow_water:kgm2 \
+
+snow_accumulation \
+wind_vector_magnitude \
+average_wind_speed \
+pressure_gradient \
+temp_dewpoint_diff \
+total_radiation \
+
+\
+date_calc \
+precip_5min:mm \
+is_day:idx \
+is_in_shadow:idx \
+precip_type_5min:idx \
+pressure_100m:hPa \
+pressure_50m:hPa \
+rain_water:kgm2 \
+sfc_pressure:hPa \
+snow_depth:cm \
+snow_melt_10min:mm \
+sun_azimuth:d \
+prob_rime:p \
+dew_or_rime:idx" \
+
+
+COLUMNS_LEFT="\
+wind_speed_w_1000hPa:ms \
 relative_humidity_1000hPa:p \
 msl_pressure:hPa \
 snow_water:kgm2 \
@@ -62,6 +106,19 @@ diffuse_rad_1h:J \
 clear_sky_energy_1h:J \
 wind_speed_10m:ms \
 wind_speed_v_10m:ms \
+wind_speed_10m:ms \
+fresh_snow_24h:cm \
+fresh_snow_12h:cm \
+fresh_snow_6h:cm \
+fresh_snow_3h:cm \
+fresh_snow_1h:cm \
+elevation:m" \
+
+# Columns that messes up test data
+# ceiling_height_agl:m
+# cloud_base_agl:m
+# snow_density:kgm3
+# snow_drift:idx
 elevation:m \
 date_calc \
 precip_5min:mm \

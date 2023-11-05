@@ -19,24 +19,9 @@ def add_rate_of_change_features(df, features, second_order=False):
 def main(input_file):
     # Define the features for which to calculate rate of change
     features_to_diff = [
-        "clear_sky_rad:W",
-        "clear_sky_energy_1h:J",
-        "diffuse_rad:W",
-        "diffuse_rad_1h:J",
-        "direct_rad:W",
-        "direct_rad_1h:J",
-        "effective_cloud_cover:p",
-        "fresh_snow_24h:cm",
-        "is_day:idx",
-        "is_in_shadow:idx",
-        "sun_elevation:d",
-        "t_1000hPa:K",
-        "total_cloud_cover:p",
-        "visibility:m",
-        "wind_speed_10m:ms",
-        "wind_speed_u_10m:ms",
-        "wind_speed_v_10m:ms",
-        "snow_drift:idx"
+        'dew_point_2m:K', 't_1000hPa:K',
+        'clear_sky_rad:W', 'diffuse_rad:W', 'direct_rad:W',
+        'effective_cloud_cover:p', 'total_cloud_cover:p', 'total_radiation'
     ]
 
 

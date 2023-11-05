@@ -1,21 +1,18 @@
 import pandas as pd
 import sys
 
-def handle_nan(df):
-    """
-    Setting all nan values to zero in a DataFrame. And removing nan targets.
-    """
-    return df.fillna(0)
-
 def main(input_file):
     # Read the data
     df = pd.read_parquet(input_file)
 
     # Remove the rows where target is nan
-    df = df[df['pv_measurement'].notna()]
+    try:
+        df = df[df['pv_measurement'].notna()]
+    except KeyError:
+        pass
 
     # Set all remaining nans to 0
-    df_handled = handle_nan(df)
+    df_handled = df.fillna(0)
 
     # Save the handled data back to the same path
     df_handled.to_parquet(input_file, index=False)

@@ -16,14 +16,18 @@ def main(input_file):
     # Hardcode the dictionary of features and their specific lags
 
     features_with_lags = {
-            'sun_azimuth:d': 8,
-            'msl_pressure:hPa': 3,
-            'sfc_pressure:hPa': 8,
-            't_1000hPa:K': 4,
-            'dew_or_rime:idx': 11,
-            'relative_humidity_1000hPa:p': -3,
-            'sun_azimuth:d': 7,
-        }
+        'sun_azimuth:d': 8,
+        'msl_pressure:hPa': 3,
+        'sfc_pressure:hPa': 8,
+        't_1000hPa:K': 4,
+        'dew_or_rime:idx': 11,
+        'relative_humidity_1000hPa:p': -3,
+        'wind_vector_magnitude': 8,
+        'sun_azimuth:d': 7,
+        'temp_dewpoint_diff': -4,
+        'dew_point_2m:K': 19, # Weak
+        'visibility:m': -2 # Weak
+    }
 
     # Read the data
     df = pd.read_parquet(input_file)
@@ -38,6 +42,5 @@ def main(input_file):
 if __name__ == "__main__":
     input_file_path = sys.argv[1]
     main(input_file_path)
-
 
 

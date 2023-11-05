@@ -1,0 +1,39 @@
+------- TING VI MÅ PRØVD -------
+
+Lagged features
+
+Alternativ for "gjennomsnitt av en time"
+
+Millioner av features med neural net
+
+Data cleaning. Fjerne outliers.
+
+Lage en måte å verifisere features raskt. 
+
+Inspisere viktige features grundigere, f.eks se hvordan
+direct_rad og diffuse_rad blir påvirket av skydekket. 
+
+Regne på vinkelen til sola.
+
+Legge til lagged features.
+
+Se på ulike måter å "ta gjennomsnittet av en time" på.
+
+Bagging
+
+
+------- TING VI HAR PRØVD -------
+
+Andre matematiske operasjoner på features
+ - Fourier / Wavelet
+ - Kvadratisk, kubisk, logaritmisk, kvadratrot
+ - Integrering
+ - Normalisering
+
+ Rate of change (derivere features, og dobbeltderivere features)
+
+ Finne features med sammenhengende betydning (produkt av features)
+
+
+
+

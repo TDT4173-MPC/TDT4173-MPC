@@ -4,6 +4,8 @@ import sys
 def keep_columns(df, columns):
     # Only keep columns that exist in the dataframe
     columns_to_keep = [col for col in columns if col in df.columns]
+    # Remove duplicates while preserving order
+    columns_to_keep = list(dict.fromkeys(columns_to_keep))
     df = df[columns_to_keep]
     return df
 

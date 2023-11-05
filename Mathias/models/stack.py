@@ -1,7 +1,6 @@
 # Data libraries
 import pandas as pd
 import numpy as np
-from tqdm import tqdm  # for the progress bar
 
 # Metrics
 from sklearn.metrics import mean_absolute_error
@@ -48,7 +47,7 @@ def create_submission(pred_A, pred_B, pred_C, output_file="submission.csv"):
 
 
 # Read in the data
-data_path = './preprocessing/data'
+data_path = 'Analysis/preprocessing/data'
 obs_A = pd.read_parquet(f'{data_path}/obs_A.parquet')
 est_A = pd.read_parquet(f'{data_path}/est_A.parquet')
 obs_B = pd.read_parquet(f'{data_path}/obs_B.parquet')
@@ -101,39 +100,29 @@ param_grid = {
 }
 
 # Initialize StackingRegressor with the base models and a meta-model
-final_estimator = RandomForestRegressor(n_estimators=100)
+stack_A = StackingRegressor(estimators=base_models, final_estimator=LinearRegression())
+stack_B = StackingRegressor(estimators=base_models, final_estimator=LinearRegression())
+stack_C = StackingRegressor(estimators=base_models, final_estimator=LinearRegression())
 
-# Create StackingRegressor instances
-stack_A = StackingRegressor(estimators=base_models, final_estimator=final_estimator)
-# stack_B = StackingRegressor(estimators=base_models, final_estimator=final_estimator)
-# stack_C = StackingRegressor(estimators=base_models, final_estimator=final_estimator)
-
-# Create GridSearchCV instances for hyperparameter tuning
-grid_A = GridSearchCV(estimator=stack_A, param_grid=param_grid, cv=5)
-# grid_B = GridSearchCV(estimator=stack_B, param_grid=param_grid, cv=5)
-# grid_C = GridSearchCV(estimator=stack_C, param_grid=param_grid, cv=5)
-
-# Fit the models (simplified for illustration)
-grid_A.fit(X_A, y_A)
-# grid_B.fit(X_B, y_B)
-# grid_C.fit(X_C, y_C)
-
-# Optionally, extract the best estimators after hyperparameter tuning
-best_stack_A = grid_A.best_estimator_
-# best_stack_B = grid_B.best_estimator_
-# best_stack_C = grid_C.best_estimator_
-
+# Train the models
+print('Training models...')
+stack_A.fit(X_A, y_A)
+print('A done')
+stack_B.fit(X_B, y_B)
+print('B done')
+stack_C.fit(X_C, y_C)
+print('C done')
 
 # Predict
-pred_A = best_stack_A.predict(test_A)
-# pred_B = best_stack_B.predict(test_B)
-# pred_C = best_stack_C.predict(test_C)
+pred_A = stack_A.predict(test_A)
+pred_B = stack_B.predict(test_B)
+pred_C = stack_C.predict(test_C)
 
 # Clip negative values to 0
 pred_A = np.clip(pred_A, 0, None)
-# pred_B = np.clip(pred_B, 0, None)
-# pred_C = np.clip(pred_C, 0, None)
+pred_B = np.clip(pred_B, 0, None)
+pred_C = np.clip(pred_C, 0, None)
 
 # Create submission
-# create_submission(pred_A, output_file="Analysis/Mathias/submission.csv")
+create_submission(pred_A, pred_B, pred_C, output_file="Analysis/Mathias/submission.csv")
 
