@@ -20,13 +20,10 @@ def test_feature(df):
     # Wind Features
     df['wind_vector_magnitude'] = (df['wind_speed_u_10m:ms']**2 + df['wind_speed_v_10m:ms']**2 + df['wind_speed_w_1000hPa:ms']**2)**0.5
     df['average_wind_speed'] = (df['wind_speed_10m:ms'] + df['wind_speed_u_10m:ms']) / 2
-    df = df.drop(columns=['wind_speed_u_10m:ms', 'wind_speed_v_10m:ms', 'wind_speed_w_1000hPa:ms', 'wind_speed_10m:ms'])
 
     # Cloud and Snow Features
-    # df['cloud_thickness'] = df['ceiling_height_agl:m'] - df['cloud_base_agl:m']
+    df['cloud_humidity_product'] = df['total_cloud_cover:p'] * df['absolute_humidity_2m:gm3']
     df['snow_accumulation'] = df[['fresh_snow_24h:cm', 'fresh_snow_12h:cm', 'fresh_snow_6h:cm', 'fresh_snow_3h:cm', 'fresh_snow_1h:cm']].sum(axis=1)
-    df = df.drop(columns=['fresh_snow_24h:cm', 'fresh_snow_12h:cm', 'fresh_snow_6h:cm', 'fresh_snow_3h:cm', 'fresh_snow_1h:cm'])
-
     # Humidity Features
     # df['humidity_ratio'] = df['absolute_humidity_2m:gm3'] / df['relative_humidity_1000hPa:p']
 
