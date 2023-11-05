@@ -19,24 +19,58 @@ SCRIPTS=(
 
 # Define scripts to run on all files including test files
 SCRIPTS_ALL=(
-"keep_columns.py" 
-#"add_time_features.py" 
-##"add_calc_time.py"
+"keep_columns.py" \
+"handle_nan.py" \
+"add_time_features.py" \
+"feature_testing.py" \
+"add_fourier_features.py" \
+"add_rate_of_change.py" \
+"add_obs_est_feature.py"
+"remove_constants.py" \
+# "normalize.py" \
+# "add_cosines.py"
+#"add_fourier_terms.py"\
+"add_calc_time.py"
+)
+
+# Define scripts to run on training data files
+SCRIPTS=(
+
+# "remove_outliers.py"
+# "normalize_pressure.py"
 )
 
 # Remove columns that are not needed
 COLUMNS_TO_KEEP="\
 pv_measurement \
-date_forecast \
-time \
+
+clear_sky_rad:W \
+clear_sky_energy_1h:J \
+diffuse_rad:W \
+diffuse_rad_1h:J \
+direct_rad:W \
+direct_rad_1h:J \
+effective_cloud_cover:p \
+sun_elevation:d \
+absolute_humidity_2m:gm3 \
+super_cooled_liquid_water:kgm2 \
 absolute_humidity_2m:gm3 \
 air_density_2m:kgm3 \
 clear_sky_rad:W \
 dew_point_2m:K \
-diffuse_rad:W \
-direct_rad:W \
-effective_cloud_cover:p \
-elevation:m \
+relative_humidity_1000hPa:p \
+msl_pressure:hPa \
+snow_water:kgm2 \
+dew_point_2m:K \
+wind_speed_u_10m:ms \
+direct_rad_1h:J \
+diffuse_rad_1h:J \
+direct_rad_1h:J \
+diffuse_rad_1h:J \
+clear_sky_energy_1h:J \
+wind_speed_10m:ms \
+\
+precip_5min:mm \
 is_day:idx \
 is_in_shadow:idx \
 msl_pressure:hPa \
@@ -59,7 +93,15 @@ direct_rad_1h:J \
 date_calc"
 
 COLUMNS_LEFT="\
-super_cooled_liquid_water:kgm2"
+date_calc \
+date_forecast \
+elevation:m" \
+
+# Columns that messes up test data
+# ceiling_height_agl:m
+# cloud_base_agl:m
+# snow_density:kgm3
+# snow_drift:idx
 
 
 # Print info to log file
