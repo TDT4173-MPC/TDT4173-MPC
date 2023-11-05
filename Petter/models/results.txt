@@ -83,6 +83,21 @@ features used are: Index(['pv_measurement', 'direct_rad:W', 'direct_rad_1h:J', '
 
 
 
+parameters from grid search:
+
+Best parameters: {'colsample_bytree': 0.8, 'gamma': 0.8, 'learning_rate': 0.008, 'max_depth': 10, 'min_child_weight': 10, 'n_estimators': 500, 'reg_alpha': 1, 'reg_lambda': 3, 'subsample': 0.912}
+Best MAE score: 211.65550766121336
+Optimized model MAE: 163.33977971892466
+
+
+Best parameters: {'colsample_bytree': 0.5, 'gamma': 0.2, 'learning_rate': 0.007, 'max_depth': 8, 'min_child_weight': 10, 'n_estimators': 500, 'reg_alpha': 3, 'reg_lambda': 3, 'subsample': 0.912}
+Best MAE score: 54.75590836417167
+Test MAE for optimized model: 28.385132575414083
+
+Best parameters: {'colsample_bytree': 0.8, 'gamma': 0.8, 'learning_rate': 0.008, 'max_depth': 8, 'min_child_weight': 10, 'n_estimators': 500, 'reg_alpha': 3, 'reg_lambda': 1, 'subsample': 0.912}
+Best MAE score: 25.107234277615397
+Test MAE for optimized model: 23.0000357041491
+
 
 
 
