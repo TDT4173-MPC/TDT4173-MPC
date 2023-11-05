@@ -63,6 +63,14 @@ A = obs_A
 B = obs_B
 C = obs_C
 
+A = A.replace([np.inf, -np.inf], np.nan)
+B = B.replace([np.inf, -np.inf], np.nan)
+C = C.replace([np.inf, -np.inf], np.nan)
+
+A = A.dropna()
+B = B.dropna()
+C = C.dropna()
+
 # Split to features and labels
 X_A = A.drop(columns=['pv_measurement'])
 y_A = A['pv_measurement']
@@ -77,9 +85,9 @@ X_train_B, X_test_B, y_train_B, y_test_B = train_test_split(X_B, y_B, test_size=
 X_train_C, X_test_C, y_train_C, y_test_C = train_test_split(X_C, y_C, test_size=0.2, shuffle=False)
 
 # Define models
-xgb_A = XGBRegressor(n_estimators=100, learning_rate=0.01, max_depth=15, random_state=2)
-xgb_B = XGBRegressor(n_estimators=100, learning_rate=0.01, max_depth=15, random_state=2)
-xgb_C = XGBRegressor(n_estimators=100, learning_rate=0.01, max_depth=15, random_state=2)
+xgb_A = XGBRegressor(n_estimators=1000, learning_rate=0.01, max_depth=15, random_state=5)
+xgb_B = XGBRegressor(n_estimators=1000, learning_rate=0.01, max_depth=15, random_state=5)
+xgb_C = XGBRegressor(n_estimators=1000, learning_rate=0.01, max_depth=15, random_state=5)
 evals_results_A = {}
 evals_results_B = {}
 evals_results_C = {}

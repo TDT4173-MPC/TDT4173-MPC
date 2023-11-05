@@ -1,9 +1,14 @@
 import pandas as pd
 
 
-
-
 def main():
+
+    # Columns that messes up test data
+    columns = [
+        'ceiling_height_agl:m',
+        'cloud_base_agl:m',
+        'snow_density:kgm3',
+        'snow_drift:idx' ]
 
     # Read in the data
     x_target_A = pd.read_parquet('./data/A/train_targets.parquet')
@@ -71,6 +76,15 @@ def main():
     test_A = x_test_est_A_resampled.reset_index()
     test_B = x_test_est_B_resampled.reset_index()
     test_C = x_test_est_C_resampled.reset_index()
+
+    # Clean up test data
+    test_A = test_A.drop(columns=columns)
+    test_B = test_B.drop(columns=columns)
+    test_C = test_C.drop(columns=columns)
+
+    test_A = test_A.dropna()
+    test_B = test_B.dropna()
+    test_C = test_C.dropna()
 
     # Save
     obs_A.to_parquet('preprocessing/data/obs_A.parquet', index=False)

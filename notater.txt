@@ -1,14 +1,10 @@
 ------- TING VI MÅ PRØVD -------
 
-Finne features med sammenhengende betydning (produkt av features)
+Lagged features
 
-Rate of change (derivere features, og dobbeltderivere features)
+Alternativ for "gjennomsnitt av en time"
 
-Andre matematiske operasjoner på features
- - Fourier
- - Kvadratisk, kubisk, logaritmisk, kvadratrot
- - Integrering
- - Normalisering
+Millioner av features med neural net
 
 Data cleaning. Fjerne outliers.
 
@@ -19,5 +15,25 @@ direct_rad og diffuse_rad blir påvirket av skydekket.
 
 Regne på vinkelen til sola.
 
+Legge til lagged features.
+
+Se på ulike måter å "ta gjennomsnittet av en time" på.
+
+Bagging
+
 
 ------- TING VI HAR PRØVD -------
+
+Andre matematiske operasjoner på features
+ - Fourier / Wavelet
+ - Kvadratisk, kubisk, logaritmisk, kvadratrot
+ - Integrering
+ - Normalisering
+
+ Rate of change (derivere features, og dobbeltderivere features)
+
+ Finne features med sammenhengende betydning (produkt av features)
+
+
+
+

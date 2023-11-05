@@ -61,30 +61,43 @@ test_C = pd.read_parquet(f'{data_path}/test_C.parquet').dropna()
 
 # Concatenate
 A = pd.concat([obs_A, est_A])
-B = pd.concat([obs_B, est_B])
-C = pd.concat([obs_C, est_C])
+# B = pd.concat([obs_B, est_B])
+# C = pd.concat([obs_C, est_C])
 
 # Split to features and labels
 X_A = A.drop(columns=['pv_measurement'])
 y_A = A['pv_measurement']
-X_B = B.drop(columns=['pv_measurement'])
-y_B = B['pv_measurement']
-X_C = C.drop(columns=['pv_measurement'])
-y_C = C['pv_measurement']
+# X_B = B.drop(columns=['pv_measurement'])
+# y_B = B['pv_measurement']
+# X_C = C.drop(columns=['pv_measurement'])
+# y_C = C['pv_measurement']
 
 # Split into train and test
-# X_train_A, X_test_A, y_train_A, y_test_A = train_test_split(X_A, y_A, test_size=0.2, shuffle=False)
+X_train_A, X_test_A, y_train_A, y_test_A = train_test_split(X_A, y_A, test_size=0.2, shuffle=False)
 # X_train_B, X_test_B, y_train_B, y_test_B = train_test_split(X_B, y_B, test_size=0.2, shuffle=False)
 # X_train_C, X_test_C, y_train_C, y_test_C = train_test_split(X_C, y_C, test_size=0.2, shuffle=False)
 
 # Train models
 # Define base models
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import GridSearchCV
+
+# Define base models
 base_models = [
-    ('lr', LinearRegression()),
-    ('rf', RandomForestRegressor(criterion='absolute_error')),
+    ('lr', LinearRegression(n_jobs=-1)),
+    ('rf', RandomForestRegressor(n_jobs=-1)),
     ('ada', AdaBoostRegressor()),
-    ('xgb', XGBRegressor())
+    ('xgb', XGBRegressor(n_jobs=-1))
 ]
+
+# Define hyperparameters for tuning (simplified for illustration)
+param_grid = {
+    'rf__n_estimators': [100, 200, 300],
+    'rf__criterion': ['mse', 'mae'],
+    'ada__n_estimators': [50, 100, 150],
+    'xgb__n_estimators': [100, 200, 300],
+    'final_estimator__n_estimators': [50, 100, 150]
+}
 
 # Initialize StackingRegressor with the base models and a meta-model
 stack_A = StackingRegressor(estimators=base_models, final_estimator=LinearRegression())
