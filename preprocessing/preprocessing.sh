@@ -14,8 +14,9 @@ DATA_PATH="preprocessing/data"
 # Define scripts to run on training data files
 SCRIPTS=(
 "handle_nan.py" \
-"winsorize_data.py" \
+# "winsorize_data.py" \
 "normalize_pressure.py"
+"add_lagged_pv_measuremen.py" \
 )
 
 # Define scripts to run on all files including test files
@@ -24,8 +25,10 @@ SCRIPTS_ALL=(
 "add_time_features.py" \
 # "add_fourier_features.py" 
 # "add_wavelet_transform_features.py"
-# "add_rate_of_change.py" \
+"add_rate_of_change.py" \
 "add_lagged_features_dict.py" \
+"feature_testing.py" \
+"add_rolling_window_features.py" \
 # "remove_constants.py" \
 # "feature_selection.py" \
 #"add_calc_time.py"

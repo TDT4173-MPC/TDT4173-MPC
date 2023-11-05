@@ -1,7 +1,7 @@
 import pandas as pd
 import sys
 
-def add_lagged_features(df, features_with__lags, fill_value=None):
+def add_lagged_pv(df, features_with__lags, fill_value=None):
     """
     Adds lagged columns for specified features in the dataframe with specific lag periods.
     'features_with_specific_lags' is a dictionary with features as keys and specific lag as values.
@@ -16,20 +16,14 @@ def main(input_file):
     # Hardcode the dictionary of features and their specific lags
 
     features_with_lags = {
-            'sun_azimuth:d': 8,
-            'msl_pressure:hPa': 3,
-            'sfc_pressure:hPa': 8,
-            't_1000hPa:K': 4,
-            'dew_or_rime:idx': 11,
-            'relative_humidity_1000hPa:p': -3,
-            'sun_azimuth:d': 7,
-        }
+        "pv_measurement": 1,
+    }
 
     # Read the data
     df = pd.read_parquet(input_file)
 
     # Add lagged features for specific lags
-    df_with_specific_lags = add_lagged_features(df, features_with_lags, fill_value=0) # You can change the fill_value as needed
+    df_with_specific_lags = add_lagged_pv(df, features_with_lags, fill_value=0) # You can change the fill_value as needed
 
     # Save the modified data back to the same path
     df_with_specific_lags.to_parquet(input_file, index=False)
