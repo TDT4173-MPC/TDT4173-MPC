@@ -49,9 +49,9 @@ est_B = pd.read_parquet(f'{data_path}/est_B.parquet').drop(columns='date_forecas
 obs_C = pd.read_parquet(f'{data_path}/obs_C.parquet').drop(columns='date_forecast')
 est_C = pd.read_parquet(f'{data_path}/est_C.parquet').drop(columns='date_forecast')
 
-test_A = pd.read_parquet(f'{data_path}/test_A.parquet').dropna().drop(columns='date_forecast')
-test_B = pd.read_parquet(f'{data_path}/test_B.parquet').dropna().drop(columns='date_forecast')
-test_C = pd.read_parquet(f'{data_path}/test_C.parquet').dropna().drop(columns='date_forecast')
+test_A = pd.read_parquet(f'{data_path}/test_A.parquet').drop(columns='date_forecast')
+test_B = pd.read_parquet(f'{data_path}/test_B.parquet').drop(columns='date_forecast')
+test_C = pd.read_parquet(f'{data_path}/test_C.parquet').drop(columns='date_forecast')
 
 # Concatenate
 # A = pd.concat([obs_A, est_A])
@@ -78,9 +78,9 @@ y_C = C['pv_measurement']
 
 # Train models
 # Initialize StackingRegressor with the base models and a meta-model
-rf_A = RandomForestRegressor(n_estimators=100, max_depth=15)
-rf_B = RandomForestRegressor(n_estimators=100, max_depth=15)
-rf_C = RandomForestRegressor(n_estimators=100, max_depth=15)
+rf_A = RandomForestRegressor(n_estimators=400, max_depth=15)
+rf_B = RandomForestRegressor(n_estimators=400, max_depth=15)
+rf_C = RandomForestRegressor(n_estimators=400, max_depth=15)
 
 # Train the models
 print('Training models...')

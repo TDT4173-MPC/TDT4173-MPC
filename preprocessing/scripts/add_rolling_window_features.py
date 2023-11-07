@@ -20,8 +20,9 @@ def main(input_file):
         'absolute_humidity_2m:gm3': 24,
         'total_cloud_cover:p': 6,
         'sun_elevation:d': 6,
-        'total_radiation': 24,
-        'total_radiation': 3
+        'total_radiation': 9,
+        'total_radiation': 3,
+        
     }
 
 
