@@ -17,3 +17,10 @@ submission.csv
 submission.xlsx
 feature_engineering_analysis.csv
 features.csv
+venv_setup.log
+stack_models/
+catboost_info/
+AutogluonModels/
+*.pkl
+test_plan/
+test_results/
