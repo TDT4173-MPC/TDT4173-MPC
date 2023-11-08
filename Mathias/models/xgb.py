@@ -10,7 +10,6 @@ from sklearn.model_selection import cross_val_score
 
 # Models
 from xgboost import XGBRegressor
-from xgboost import plot_importance
 
 # Utils
 def create_submission(pred_A, pred_B, pred_C, output_file="submission.csv"):
@@ -43,7 +42,7 @@ def create_submission(pred_A, pred_B, pred_C, output_file="submission.csv"):
 
 
 # Read in the data
-data_path = './preprocessing/data'
+data_path = './Analysis/preprocessing/data'
 
 
 columns_A = [
@@ -52,7 +51,7 @@ columns_A = [
     "diffuse_rad:W",
     "direct_rad:W_rate_of_change",
     "clear_sky_rad:W",
-    #"date_forecast_fft_amplitude",
+    "date_forecast_fft_amplitude",
     "clear_sky_rad:W_rate_of_change_of_change",
     "clear_sky_rad:W_rate_of_change",
     "sun_azimuth:d",
@@ -62,37 +61,35 @@ columns_A = [
     "precip_5min:mm",
     "msl_pressure:hPa",
     "sun_elevation:d",
-    #"sun_elevation:d_fft_phase",
+    "sun_elevation:d_fft_phase",
     "t_1000hPa:K_rate_of_change",
     "fresh_snow_24h:cm",
     "diffuse_rad:W_rate_of_change",
     "direct_rad_1h:J",
-    "absolute_humidity_2m:gm3",
-    "precipitation"
+    "absolute_humidity_2m:gm3"
 ]
 columns_B = [
     "pv_measurement",
-    #"date_forecast_fft_phase",
+    "date_forecast_fft_phase",
     "direct_rad:W",
     "diffuse_rad:W",
     "sun_elevation:d",
     "clear_sky_rad:W",
     "clear_sky_rad:W_rate_of_change",
-    #"date_forecast_fft_amplitude",
-    #"cloud_base_agl:m",
-    #"year",
+    "date_forecast_fft_amplitude",
+    "cloud_base_agl:m",
+    "year",
     "t_1000hPa:K",
-    #"snow_drift:idx_fft_amplitude",
+    "snow_drift:idx_fft_amplitude",
     "air_density_2m:kgm3",
     "diffuse_rad:W_rate_of_change",
     "clear_sky_rad:W_rate_of_change_of_change",
     "t_1000hPa:K_rate_of_change",
-    #"month",
+    "month",
     "diffuse_rad_1h:J",
     "direct_rad:W_rate_of_change",
     "visibility:m",
-    "precip_5min:mm",
-    "precipitation"
+    "precip_5min:mm"
 ]
 columns_C = [
     "pv_measurement",
@@ -101,7 +98,7 @@ columns_C = [
     "diffuse_rad:W",
     "t_1000hPa:K",
     "direct_rad_1h:J",
-    #"date_forecast_fft_amplitude",
+    "date_forecast_fft_amplitude",
     "clear_sky_rad:W",
     "clear_sky_energy_1h:J",
     "direct_rad:W_rate_of_change_of_change",
@@ -110,13 +107,12 @@ columns_C = [
     "precip_5min:mm",
     "relative_humidity_1000hPa:p",
     "msl_pressure:hPa",
-    #"precip_type_5min:idx_fft_amplitude",
+    "precip_type_5min:idx_fft_amplitude",
     "wind_speed_u_10m:ms",
     "diffuse_rad_1h:J",
     "sfc_pressure:hPa",
     "dew_point_2m:K",
-    "effective_cloud_cover:p",
-    "precipitation"
+    "effective_cloud_cover:p"
 ]
 
 # For A
@@ -199,9 +195,6 @@ xgb_C.fit(X_train_C, y_train_C, eval_set=[(X_train_C, y_train_C), (X_test_C, y_t
 evals_results_A = xgb_A.evals_result()
 evals_results_B = xgb_B.evals_result()
 evals_results_C = xgb_C.evals_result()
-
-# Get the importance dictionary (by default, 'weight' is used)
-importance_dict = xgb_A.get_score(importance_type='weight')
 
 # Plotting training and validation errors
 train_errors = evals_results_A['validation_0']['mae']
