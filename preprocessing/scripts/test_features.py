@@ -116,7 +116,7 @@ def main(obs_data_path, est_data_path):
         'learning_rate': 0.008, 
         'max_depth': 10, 
         'min_child_weight': 10, 
-        'n_estimators': 550, 
+        'n_estimators': 450, 
         'reg_alpha': 1, 
         'reg_lambda': 3, 
         'subsample': 0.912,

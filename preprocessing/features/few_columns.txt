@@ -1,0 +1,10 @@
+pv_measurement
+date_forecast
+total_radiation
+temp_rad_interaction
+sun_azimuth:d
+total_cloud_cover:p
+clear_sky_energy_1h:J
+total_cloud_cover:p
+snow_accumulation
+month

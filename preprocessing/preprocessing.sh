@@ -3,7 +3,7 @@
 LOG_FILE="preprocessing/preprocessing.log"
 SCRIPT_PATH="preprocessing/scripts"
 DATA_PATH="preprocessing/data"
-RUN_FEATURE_TESTING=true
+RUN_FEATURE_TESTING=false
 
 # Clear the log file
 > $LOG_FILE
@@ -19,7 +19,7 @@ SCRIPTS_ALL=(
 "add_fourier_features.py" \
 "add_rate_of_change.py" \
 "add_obs_est_feature.py"
-"remove_constants.py" \
+# "remove_constants.py" \
 "add_lagged_features_dict.py" \
 "add_rolling_window_features.py" \
 "keep_columns.py" \
