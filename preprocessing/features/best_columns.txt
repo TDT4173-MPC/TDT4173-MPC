@@ -1,0 +1,11 @@
+pv_measurement
+date_forecast
+total_radiation
+snow_accumulation
+super_cooled_liquid_water:kgm2
+average_wind_speed
+sun_elevation:d
+sun_azimuth:d
+clear_sky_rad:W
+month
+t_1000hPa:C

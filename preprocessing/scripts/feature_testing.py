@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import sys
+from sklearn.preprocessing import MinMaxScaler
 
 def test_feature(df):
     """
@@ -16,6 +17,10 @@ def test_feature(df):
     # Temperature and Pressure Features
     df['temp_dewpoint_diff'] = df['t_1000hPa:K'] - df['dew_point_2m:K']
     df['pressure_gradient'] = df['pressure_100m:hPa'] - df['pressure_50m:hPa']
+    df[df['t_1000hPa:K'] > 220]
+    df['t_1000hPa:C'] = df['t_1000hPa:K'] - 273.15
+    df['dew_point_2m:C'] = df['dew_point_2m:K'] - 273.15
+    df['msl_pressure:hPa_scaled'] = MinMaxScaler().fit_transform(df['msl_pressure:hPa'].values.reshape(-1, 1))
 
     # Wind Features
     df['wind_vector_magnitude'] = (df['wind_speed_u_10m:ms']**2 + df['wind_speed_v_10m:ms']**2 + df['wind_speed_w_1000hPa:ms']**2)**0.5

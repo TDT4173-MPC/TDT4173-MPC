@@ -3,7 +3,7 @@
 LOG_FILE="preprocessing/preprocessing.log"
 SCRIPT_PATH="preprocessing/scripts"
 DATA_PATH="preprocessing/data"
-RUN_FEATURE_TESTING=false
+RUN_FEATURE_TESTING=true
 
 # Clear the log file
 > $LOG_FILE
@@ -16,12 +16,12 @@ RUN_FEATURE_TESTING=false
 SCRIPTS_ALL=(
 "feature_testing.py" \
 "add_time_features.py" \
-"add_fourier_features.py" \
-"add_rate_of_change.py" \
-"add_obs_est_feature.py"
-# "remove_constants.py" \
-"add_lagged_features_dict.py" \
-"add_rolling_window_features.py" \
+# "add_fourier_features.py" \
+# "add_rate_of_change.py" \
+# "add_obs_est_feature.py"
+"remove_constants.py" \
+# "add_lagged_features_dict.py" \
+# "add_rolling_window_features.py" \
 "keep_columns.py" \
 # "add_polynomial_features.py" \
 # "add_angled_features.py" \
