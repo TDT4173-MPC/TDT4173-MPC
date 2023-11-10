@@ -17,10 +17,10 @@ def test_feature(df):
     # Temperature and Pressure Features
     df['temp_dewpoint_diff'] = df['t_1000hPa:K'] - df['dew_point_2m:K']
     df['pressure_gradient'] = df['pressure_100m:hPa'] - df['pressure_50m:hPa']
-    df[df['t_1000hPa:K'] > 220]
     df['t_1000hPa:C'] = df['t_1000hPa:K'] - 273.15
     df['dew_point_2m:C'] = df['dew_point_2m:K'] - 273.15
     df['msl_pressure:hPa_scaled'] = MinMaxScaler().fit_transform(df['msl_pressure:hPa'].values.reshape(-1, 1))
+    df['sfc_pressure:hPa_scaled'] = MinMaxScaler().fit_transform(df['sfc_pressure:hPa'].values.reshape(-1, 1))
 
     # Wind Features
     df['wind_vector_magnitude'] = (df['wind_speed_u_10m:ms']**2 + df['wind_speed_v_10m:ms']**2 + df['wind_speed_w_1000hPa:ms']**2)**0.5
@@ -47,7 +47,7 @@ def test_feature(df):
     # Interaction between humidity and radiation
     df['sun_elevation_direct_rad_interaction'] = df['sun_elevation:d'] * df['direct_rad:W']
 
-    df = df.dropna()
+    # df = df.dropna()
     df.replace([np.inf, -np.inf], 0, inplace=True)
     # Daylight Features (assuming 'date_forecast' and 'date_calc' are in datetime format)
     # df['daylight_duration'] = (df['date_forecast'] - df['date_calc']).dt.total_seconds() / 3600

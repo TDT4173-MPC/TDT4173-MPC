@@ -16,14 +16,15 @@ RUN_FEATURE_TESTING=true
 SCRIPTS_ALL=(
 "feature_testing.py" \
 "add_time_features.py" \
-# "add_fourier_features.py" \
-# "add_rate_of_change.py" \
-# "add_obs_est_feature.py"
+"bin_features.py" \
+"add_fourier_features.py" \
+"add_rate_of_change.py" \
+"add_obs_est_feature.py"
 "remove_constants.py" \
-# "add_lagged_features_dict.py" \
-# "add_rolling_window_features.py" \
-"keep_columns.py" \
+"add_lagged_features_dict.py" \
+"add_rolling_window_features.py" \
 # "add_polynomial_features.py" \
+"keep_columns.py" \
 # "add_angled_features.py" \
 "handle_nan.py" \
 # "pca.py" \

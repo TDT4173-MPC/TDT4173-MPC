@@ -1,10 +1,8 @@
 pv_measurement
 date_forecast
 total_radiation
-temp_rad_interaction
-sun_azimuth:d
-total_cloud_cover:p
-clear_sky_energy_1h:J
-total_cloud_cover:p
 snow_accumulation
-month
+super_cooled_liquid_water:kgm2
+sun_azimuth:d
+clear_sky_rad:W
+effective_cloud_cover:p

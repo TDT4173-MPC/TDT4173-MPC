@@ -6,27 +6,30 @@ from sklearn.preprocessing import StandardScaler
 def main(input_file):
     # Read the data
     df = pd.read_parquet(input_file)
-    
-    # Standardize the data
-    scaler = StandardScaler()
+
+    # Separate the 'pv_measurement' column
     try:
-        popped_cols = df['pv_measurement', 'date_forecast']
-        features_standardized = scaler.fit_transform(df.drop(columns=['pv_measurement', 'date_forecast']))
+        pv_measurement = df[['pv_measurement']]
+        df = df.drop(columns=['pv_measurement'])
     except KeyError:
-        popped_cols = df['date_forecast']
-        features_standardized = scaler.fit_transform(df.drop(columns=['date_forecast']))
+        print("Column 'pv_measurement' not found. Applying PCA to all columns.")
+        pv_measurement = None
+
+    # Standardize the remaining data
+    scaler = StandardScaler()
+    features_standardized = scaler.fit_transform(df)
 
     # Apply PCA
-    pca = PCA(n_components=10)
+    pca = PCA(n_components=6)
     pca_result = pca.fit_transform(features_standardized)
 
     # Create a DataFrame with the PCA results
-    df_pca = pd.DataFrame(data=pca_result)
+    df_pca = pd.DataFrame(data=pca_result, columns=[f'PCA_{i}' for i in range(pca.n_components_)])
 
-    # If you want to keep non-numeric columns and concatenate them back to the PCA result:
-    try:
-        df_final = pd.concat([popped_cols, df_pca], axis=1)
-    except:
+    # Concatenate the 'pv_measurement' column back if it exists
+    if pv_measurement is not None:
+        df_final = pd.concat([pv_measurement, df_pca], axis=1)
+    else:
         df_final = df_pca
     
     # Save the modified data back to the same path
