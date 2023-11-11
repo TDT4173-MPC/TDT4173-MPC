@@ -5,8 +5,6 @@ def main():
 
     # Columns that messes up test data
     columns = [
-        'ceiling_height_agl:m',
-        'cloud_base_agl:m',
         'snow_density:kgm3',
         'snow_drift:idx' ]
     
@@ -56,7 +54,9 @@ def main():
         'wind_speed_10m:ms': 'mean',
         'wind_speed_u_10m:ms': 'mean',
         'wind_speed_v_10m:ms': 'mean',
-        'wind_speed_w_1000hPa:ms': 'mean'
+        'wind_speed_w_1000hPa:ms': 'mean',
+        'ceiling_height_agl:m': 'max',
+        'cloud_base_agl:m': 'max'
     }
 
 
@@ -80,6 +80,23 @@ def main():
     x_target_A.rename(columns={'time': 'date_forecast'}, inplace=True)
     x_target_B.rename(columns={'time': 'date_forecast'}, inplace=True)
     x_target_C.rename(columns={'time': 'date_forecast'}, inplace=True)
+
+    # Fix cloud data for test set
+    x_test_est_A['effective_cloud_cover:p'] = x_test_est_A['effective_cloud_cover:p'].fillna(0)
+    x_test_est_B['effective_cloud_cover:p'] = x_test_est_B['effective_cloud_cover:p'].fillna(0)
+    x_test_est_C['effective_cloud_cover:p'] = x_test_est_C['effective_cloud_cover:p'].fillna(0)
+
+    x_test_est_A['total_cloud_cover:p'] = x_test_est_A['total_cloud_cover:p'].fillna(0)
+    x_test_est_B['total_cloud_cover:p'] = x_test_est_B['total_cloud_cover:p'].fillna(0)
+    x_test_est_C['total_cloud_cover:p'] = x_test_est_C['total_cloud_cover:p'].fillna(0)
+
+    x_test_est_A['cloud_base_agl:m'] = x_test_est_A['cloud_base_agl:m'].fillna(0)
+    x_test_est_B['cloud_base_agl:m'] = x_test_est_B['cloud_base_agl:m'].fillna(0)
+    x_test_est_C['cloud_base_agl:m'] = x_test_est_C['cloud_base_agl:m'].fillna(0)
+
+    x_test_est_A['ceiling_height_agl:m'] = x_test_est_A['ceiling_height_agl:m'].fillna(0)
+    x_test_est_B['ceiling_height_agl:m'] = x_test_est_B['ceiling_height_agl:m'].fillna(0)
+    x_test_est_C['ceiling_height_agl:m'] = x_test_est_C['ceiling_height_agl:m'].fillna(0)
 
     # Resample
     x_train_obs_A_resampled = x_train_obs_A.groupby(pd.Grouper(key='date_forecast', freq='1H')).aggregate(aggregation_methods)
