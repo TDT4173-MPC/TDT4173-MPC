@@ -16,13 +16,13 @@ RUN_FEATURE_TESTING=true
 SCRIPTS_ALL=(
 "feature_testing.py" \
 "add_time_features.py" \
-"bin_features.py" \
-"add_fourier_features.py" \
-"add_rate_of_change.py" \
-"add_obs_est_feature.py"
+# "bin_features.py" \
+# "add_fourier_features.py" \
+# "add_rate_of_change.py" \
+# "add_obs_est_feature.py"
 "remove_constants.py" \
-"add_lagged_features_dict.py" \
-"add_rolling_window_features.py" \
+# "add_lagged_features_dict.py" \
+# "add_rolling_window_features.py" \
 # "add_polynomial_features.py" \
 "keep_columns.py" \
 # "add_angled_features.py" \
@@ -155,7 +155,7 @@ echo -e "\nKeeping columns:\n$COLUMNS_TO_KEEP\n" | tee -a $LOG_FILE
 
 
 # Import data and resample to 1 hour intervals
-FILES=$(python3 $SCRIPT_PATH/import.py)
+FILES=$(python3 $SCRIPT_PATH/import_aggregate.py)
 if [ $? -ne 0 ]; then
     echo "Error during data import. Exiting." | tee -a $LOG_FILE
     exit 1

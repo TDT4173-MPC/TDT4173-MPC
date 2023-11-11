@@ -20,7 +20,7 @@ def main(input_file):
     features_standardized = scaler.fit_transform(df)
 
     # Apply PCA
-    pca = PCA(n_components=6)
+    pca = PCA(n_components=40)
     pca_result = pca.fit_transform(features_standardized)
 
     # Create a DataFrame with the PCA results

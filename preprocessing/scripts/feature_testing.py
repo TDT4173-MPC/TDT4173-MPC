@@ -10,6 +10,9 @@ def test_feature(df):
 
     # Radiation Features
     df['total_radiation'] = df['direct_rad:W'] + df['diffuse_rad:W']
+    df['total_radiation_1h'] = df['direct_rad_1h:J'] + df['diffuse_rad_1h:J']
+    df['total_radiation_sun_azimuth_interaction'] = df['total_radiation'] * df['sun_azimuth:d']
+    df['total_radiation_sun_elevation_interaction'] = df['total_radiation'] * df['sun_elevation:d']
     # df['direct_rad_ratio'] = df['direct_rad_1h:J'] / df['direct_rad:W']
     # df['diffuse_rad_ratio'] = df['diffuse_rad_1h:J'] / df['diffuse_rad:W']
     # df['clear_sky_ratio'] = df['clear_sky_rad:W'] / df['total_radiation']
@@ -19,8 +22,8 @@ def test_feature(df):
     df['pressure_gradient'] = df['pressure_100m:hPa'] - df['pressure_50m:hPa']
     df['t_1000hPa:C'] = df['t_1000hPa:K'] - 273.15
     df['dew_point_2m:C'] = df['dew_point_2m:K'] - 273.15
-    df['msl_pressure:hPa_scaled'] = MinMaxScaler().fit_transform(df['msl_pressure:hPa'].values.reshape(-1, 1))
-    df['sfc_pressure:hPa_scaled'] = MinMaxScaler().fit_transform(df['sfc_pressure:hPa'].values.reshape(-1, 1))
+    # df['msl_pressure:hPa_scaled'] = MinMaxScaler().fit_transform(df['msl_pressure:hPa'].values.reshape(-1, 1))
+    # df['sfc_pressure:hPa_scaled'] = MinMaxScaler().fit_transform(df['sfc_pressure:hPa'].values.reshape(-1, 1))
 
     # Wind Features
     df['wind_vector_magnitude'] = (df['wind_speed_u_10m:ms']**2 + df['wind_speed_v_10m:ms']**2 + df['wind_speed_w_1000hPa:ms']**2)**0.5

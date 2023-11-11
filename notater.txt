@@ -1,6 +1,6 @@
 ------- TING VI MÅ PRØVE -------
 
-Alternativ for "gjennomsnitt av en time"
+Aggregation
 
 Data cleaning. Fjerne outliers.
 
@@ -17,6 +17,8 @@ Binning
 
 Se mer på Cloud_base_agl:m
 
+MODEL INTERPRETATION
+
 
 ------- TING VI HAR PRØVD -------
 
@@ -30,6 +32,19 @@ Andre matematiske operasjoner på features
 
  Finne features med sammenhengende betydning (produkt av features)
 
-Cloud_base_agl:m er ikke i testsettet?
-
 Legge til lagged features.
+
+
+------- Interresante features -------
+
+total_radiation is_day:idx
+temp_rad_interaction relative_humidity_1000hPa:p
+direct_rad:W air_density_2m:kgm3
+total_radiation air_density_2m:kgm3
+total_radiation temp_rad_interaction
+total_radiation sfc_pressure:hPa
+total_radiation^2
+is_day:idx sun_azimuth:d
+total_radiation sun_elevation:d
+direct_rad:W clear_sky_rad:W
+month clear_sky_rad:W

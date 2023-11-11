@@ -43,7 +43,8 @@ def main(input_file=0):
         'effective_cloud_cover:p',
         'super_cooled_liquid_water:kgm2',
         'snow_accumulation',
-        'sun_azimuth:d'
+        'sun_azimuth:d',
+        'sun_elevation:d'
     ]
 
     # Bin the columns
