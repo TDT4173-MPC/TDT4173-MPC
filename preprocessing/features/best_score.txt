@@ -1,6 +1,6 @@
 pv_measurement
 date_forecast
-total_radiation
+total_radiation:W
 snow_accumulation
 super_cooled_liquid_water:kgm2
 average_wind_speed
@@ -11,6 +11,6 @@ month
 t_1000hPa:C
 msl_pressure:hPa_scaled
 rain_water:kgm2
-cloud_base_agl:d
+cloud_base_agl:m
 effective_cloud_cover:p
 dew_or_rime:idx

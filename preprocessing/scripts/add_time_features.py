@@ -5,6 +5,7 @@ import sys
 def add_date_features(df):
     """
     Adds 'month', 'year', 'hour' and 'day' columns to the dataframe based on the 'date_forecast' column.
+    Also adds 'hour_sin' and 'hour_cos' columns for the hour of the day.
     """
     
     # Check if 'date_forecast' exists in the dataframe
@@ -16,7 +17,9 @@ def add_date_features(df):
         df['month'] = df['date_forecast'].dt.month
         df['year'] = df['date_forecast'].dt.year
         df['hour'] = df['date_forecast'].dt.hour
-        # df['day'] = df['date_forecast'].dt.day
+        df['day'] = df['date_forecast'].dt.day
+        df['hour_sin'] = np.sin(2*np.pi*df['hour']/24)
+        df['hour_cos'] = np.cos(2*np.pi*df['hour']/24)
 
     else:
         print("Warning: 'date_forecast' column not found in the dataframe. No date features added.")

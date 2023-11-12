@@ -9,21 +9,24 @@ def test_feature(df):
     """
 
     # Radiation Features
-    df['total_radiation'] = df['direct_rad:W'] + df['diffuse_rad:W']
-    df['total_radiation_1h'] = df['direct_rad_1h:J'] + df['diffuse_rad_1h:J']
-    df['total_radiation_sun_azimuth_interaction'] = df['total_radiation'] * df['sun_azimuth:d']
-    df['total_radiation_sun_elevation_interaction'] = df['total_radiation'] * df['sun_elevation:d']
+    df['total_radiation:W'] = df['direct_rad:W'] + df['diffuse_rad:W']
+    df['total_radiation_1h:J'] = df['direct_rad_1h:J'] + df['diffuse_rad_1h:J']
+    df['rad_diff:W'] = df['direct_rad:W'] - df['diffuse_rad:W']
+    df['rad_diff_1h:J'] = df['direct_rad_1h:J'] - df['diffuse_rad_1h:J']
+    df['diffuse_direct_ratio'] = df['diffuse_rad:W'] / df['direct_rad:W']
+    # df['total_radiation_sun_azimuth_interaction'] = df['total_radiation:W'] * df['sun_azimuth:d']
+    # df['total_radiation_sun_elevation_interaction'] = df['total_radiation:W'] * df['sun_elevation:d']
     # df['direct_rad_ratio'] = df['direct_rad_1h:J'] / df['direct_rad:W']
     # df['diffuse_rad_ratio'] = df['diffuse_rad_1h:J'] / df['diffuse_rad:W']
-    # df['clear_sky_ratio'] = df['clear_sky_rad:W'] / df['total_radiation']
+    # df['clear_sky_ratio'] = df['clear_sky_rad:W'] / df['total_radiation:W']
 
     # Temperature and Pressure Features
     df['temp_dewpoint_diff'] = df['t_1000hPa:K'] - df['dew_point_2m:K']
     df['pressure_gradient'] = df['pressure_100m:hPa'] - df['pressure_50m:hPa']
     df['t_1000hPa:C'] = df['t_1000hPa:K'] - 273.15
     df['dew_point_2m:C'] = df['dew_point_2m:K'] - 273.15
-    # df['msl_pressure:hPa_scaled'] = MinMaxScaler().fit_transform(df['msl_pressure:hPa'].values.reshape(-1, 1))
-    # df['sfc_pressure:hPa_scaled'] = MinMaxScaler().fit_transform(df['sfc_pressure:hPa'].values.reshape(-1, 1))
+    df['msl_pressure:hPa_scaled'] = MinMaxScaler().fit_transform(df['msl_pressure:hPa'].values.reshape(-1, 1))
+    df['sfc_pressure:hPa_scaled'] = MinMaxScaler().fit_transform(df['sfc_pressure:hPa'].values.reshape(-1, 1))
 
     # Wind Features
     df['wind_vector_magnitude'] = (df['wind_speed_u_10m:ms']**2 + df['wind_speed_v_10m:ms']**2 + df['wind_speed_w_1000hPa:ms']**2)**0.5
@@ -39,7 +42,7 @@ def test_feature(df):
     df['radiation_cloud_interaction'] = df['direct_rad:W'] * df['effective_cloud_cover:p']
 
     # Interaction between temperature and radiation (considering that high temperature may reduce efficiency)
-    df['temp_rad_interaction'] = df['t_1000hPa:K'] * df['total_radiation']
+    df['temp_rad_interaction'] = df['t_1000hPa:K'] * df['total_radiation:W']
 
     # Interaction between wind cooling effect and temperature
     df['wind_temp_interaction'] = df['average_wind_speed'] * df['t_1000hPa:K']
@@ -49,6 +52,8 @@ def test_feature(df):
 
     # Interaction between humidity and radiation
     df['sun_elevation_direct_rad_interaction'] = df['sun_elevation:d'] * df['direct_rad:W']
+
+    df['precip'] = df['precip_5min:mm']*df['precip_type_5min:idx']
 
     # df = df.dropna()
     df.replace([np.inf, -np.inf], 0, inplace=True)

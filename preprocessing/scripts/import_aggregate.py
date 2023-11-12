@@ -5,20 +5,20 @@ def main():
 
     # Columns that messes up test data
     columns = [
-        'snow_density:kgm3',
-        'snow_drift:idx' ]
+        
+         ]
     
     aggregation_methods = {
         'date_forecast': 'first',
         'diffuse_rad:W': 'sum',
-        'direct_rad:W': 'sum',
+        'direct_rad:W': 'last',
         'clear_sky_rad:W': 'sum',
         'diffuse_rad_1h:J': 'last',
         'direct_rad_1h:J': 'last',
         'clear_sky_energy_1h:J': 'last',
         'absolute_humidity_2m:gm3': 'mean',
         'air_density_2m:kgm3': 'mean',
-        'ceiling_height_agl:m': 'mean',
+        'ceiling_height_agl:m': 'max',
         'cloud_base_agl:m': 'mean',
         'dew_or_rime:idx': 'min',
         'dew_point_2m:K': 'mean',
@@ -33,7 +33,7 @@ def main():
         'is_in_shadow:idx': 'max',
         'msl_pressure:hPa': 'mean',
         'precip_5min:mm': 'sum',
-        'precip_type_5min:idx': 'max',
+        'precip_type_5min:idx': 'sum',
         'pressure_100m:hPa': 'mean',
         'pressure_50m:hPa': 'mean',
         'prob_rime:p': 'max',
@@ -46,7 +46,7 @@ def main():
         'snow_melt_10min:mm': 'sum',
         'snow_water:kgm2': 'sum',
         'sun_azimuth:d': 'first',
-        'sun_elevation:d': 'first',
+        'sun_elevation:d': 'sum',
         'super_cooled_liquid_water:kgm2': 'sum',
         't_1000hPa:K': 'mean',
         'total_cloud_cover:p': 'mean',
@@ -55,8 +55,8 @@ def main():
         'wind_speed_u_10m:ms': 'mean',
         'wind_speed_v_10m:ms': 'mean',
         'wind_speed_w_1000hPa:ms': 'mean',
-        'ceiling_height_agl:m': 'max',
-        'cloud_base_agl:m': 'max'
+        'cloud_base_agl:m': 'max',
+        'snow_density:kgm3': 'mean'
     }
 
 
@@ -97,6 +97,14 @@ def main():
     x_test_est_A['ceiling_height_agl:m'] = x_test_est_A['ceiling_height_agl:m'].fillna(0)
     x_test_est_B['ceiling_height_agl:m'] = x_test_est_B['ceiling_height_agl:m'].fillna(0)
     x_test_est_C['ceiling_height_agl:m'] = x_test_est_C['ceiling_height_agl:m'].fillna(0)
+
+    x_test_est_A['snow_density:kgm3'] = x_test_est_A['snow_density:kgm3'].fillna(0)
+    x_test_est_B['snow_density:kgm3'] = x_test_est_B['snow_density:kgm3'].fillna(0)
+    x_test_est_C['snow_density:kgm3'] = x_test_est_C['snow_density:kgm3'].fillna(0)
+
+    x_test_est_A['snow_drift:idx'] = x_test_est_A['snow_drift:idx'].fillna(0)
+    x_test_est_B['snow_drift:idx'] = x_test_est_B['snow_drift:idx'].fillna(0)
+    x_test_est_C['snow_drift:idx'] = x_test_est_C['snow_drift:idx'].fillna(0)
 
     # Resample
     x_train_obs_A_resampled = x_train_obs_A.groupby(pd.Grouper(key='date_forecast', freq='1H')).aggregate(aggregation_methods)

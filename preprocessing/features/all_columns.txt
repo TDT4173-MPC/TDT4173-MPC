@@ -1,4 +1,5 @@
 pv_measurement
+date_forecast
 snow_accumulation
 total_radiation
 sfc_pressure:hPa

@@ -40,16 +40,16 @@ def main(input_file=0):
 
     # Specify the columns to bin
     columns_to_bin = [
-        'effective_cloud_cover:p',
         'super_cooled_liquid_water:kgm2',
-        'snow_accumulation',
-        'sun_azimuth:d',
-        'sun_elevation:d'
+        'ceiling_height_agl:m',
+        'cloud_base_agl:m'
     ]
 
     # Bin the columns
-    df = bin_columns(df, columns_to_bin)
-    df = bin_columns(df, ['month'], n_bins=6)
+    # df = bin_columns(df, columns_to_bin)
+    df = bin_columns(df, ['effective_cloud_cover:p'], n_bins=2)
+    df = bin_columns(df, ['ceiling_height_agl:m'], n_bins=3)
+    df = bin_columns(df, ['average_wind_speed'], n_bins=5)
 
     df.to_parquet(input_file, index=False)
     print(f"Features binned. File saved to {input_file}.")
