@@ -1,0 +1,8 @@
+pv_measurement
+date_forecast
+total_radiation
+snow_accumulation
+super_cooled_liquid_water:kgm2
+sun_azimuth:d
+clear_sky_rad:W
+effective_cloud_cover:p

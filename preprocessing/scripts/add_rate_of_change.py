@@ -19,9 +19,9 @@ def add_rate_of_change_features(df, features, second_order=False):
 def main(input_file):
     # Define the features for which to calculate rate of change
     features_to_diff = [
-        'dew_point_2m:K', 't_1000hPa:K',
+        't_1000hPa:K',
         'clear_sky_rad:W', 'diffuse_rad:W', 'direct_rad:W',
-        'effective_cloud_cover:p', 'total_cloud_cover:p', 'total_radiation'
+        'effective_cloud_cover:p', 'total_radiation:W'
     ]
 
 
@@ -29,7 +29,7 @@ def main(input_file):
     df = pd.read_parquet(input_file)
 
     # Add rate of change features
-    df_with_roc = add_rate_of_change_features(df, features_to_diff, second_order=True)
+    df_with_roc = add_rate_of_change_features(df, features_to_diff, second_order=False)
 
     # Save the modified data back to the same path
     df_with_roc.to_parquet(input_file, index=False)

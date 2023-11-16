@@ -16,17 +16,12 @@ def main(input_file):
     # Hardcode the dictionary of features and their specific lags
 
     features_with_lags = {
-        'sun_azimuth:d': 8,
-        'msl_pressure:hPa': 3,
-        'sfc_pressure:hPa': 8,
-        't_1000hPa:K': 4,
-        'dew_or_rime:idx': 11,
-        'relative_humidity_1000hPa:p': -3,
-        'wind_vector_magnitude': 8,
-        'sun_azimuth:d': 7,
-        'temp_dewpoint_diff': -4,
-        'dew_point_2m:K': 19, # Weak
-        'visibility:m': -2 # Weak
+        'total_radiation:W': 1,
+        'total_radiation:W': -1,
+        'rad_diff:W': 1,
+        'rad_diff:W': -1,
+        'total_radiation_1h:J': 1,
+        'total_radiation_1h:J': -1
     }
 
     # Read the data

@@ -1,7 +1,7 @@
 import pandas as pd
 import sys
 
-def remove_constant_regions(dataframe, column_name="pv_measurement", threshold=24):
+def remove_constant_regions(dataframe, column_name="pv_measurement", threshold=72):
     """
     Removes rows where the specified column has constant values for more than the given threshold.
     """
