@@ -1,3 +1,9 @@
+# Solar Energy Production Forecasting - TDT4173 Project, NTNU Trondheim
+
+This repository contains the work for the TDT4173 Machine Learning course at NTNU Trondheim. The project is part of a competition focused on forecasting solar energy production. The objective is to predict hourly solar energy production for the next day. 
+
+The dataset used in this project was provided by Aneo. Our team ranked 16th out of over 100 teams in the competition.
+
 # Analysis
 
 Tools for data analysis.
